@@ -523,7 +523,7 @@
                         style="display: flex; gap: 1.5rem; transition: transform 0.4s ease-in-out; width: max-content; padding-right: 2rem;">
 
                         <!-- Agent Box -->
-                        <div class="bento-box agent-view" style="flex: 0 0 280px; margin: 0;">
+                        <div class="bento-box agent-view" style="margin: 0;">
                           <div class="bento-header">
                             <i class="fas fa-user-astronaut"></i> Agent Profile \( \mathcal{A} \)
                           </div>
@@ -537,12 +537,12 @@
                         </div>
 
                         <!-- Merged Scene Box -->
-                        <div class="bento-box scene-merged" style="flex: 0 0 540px; margin: 0;">
+                        <div class="bento-box scene-merged" style="margin: 0;">
                           <div class="bento-header">
                             <i class="fas fa-cubes"></i> Multi-object 3D Scene \( \mathcal{S} \)
                           </div>
                           <div class="bento-body">
-                            <div style="display: flex; gap: 1.25rem; align-items: stretch;">
+                            <div class="bento-flex-container">
                               <div style="flex: 1; display: flex; flex-direction: column;">
                                 <p class="mb-2 text-sm">Rendering \( \Pi_{\text{vis}}(\cdot) \)</p>
                                 <div
@@ -553,7 +553,7 @@
                               </div>
 
                               <!-- Vertical Separator -->
-                              <div style="width: 1px; background: #e2e8f0; margin: 0;"></div>
+                              <div class="vertical-separator"></div>
 
                               <div style="flex: 1; display: flex; flex-direction: column;">
                                 <p class="mb-2 text-sm">Structured input \( \Pi_{\text{txt}}(\cdot) \)</p>
@@ -573,7 +573,7 @@
                         </div>
 
                         <!-- Task Box -->
-                        <div class="bento-box task-desc" style="flex: 0 0 280px; margin: 0;">
+                        <div class="bento-box task-desc" style="margin: 0;">
                           <div class="bento-header">
                             <i class="fas fa-comment-dots"></i> Task \( \mathcal{T} \)
                           </div>

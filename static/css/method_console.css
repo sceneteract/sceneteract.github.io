@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 100%;
 }
 
 .nav-item {
@@ -79,6 +80,7 @@
 /* Right Pane: The Stage */
 .console-stage {
   flex: 1;
+  min-width: 0;
   background: #ffffff;
   border-radius: 16px;
   border: 1px solid #e2e8f0;
@@ -100,6 +102,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  max-width: 100%;
 }
 
 .stage-content.active {
@@ -150,6 +153,7 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  width: 100%;
 }
 
 .bento-header {
@@ -174,6 +178,27 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+}
+
+.bento-flex-container {
+  display: flex;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.vertical-separator {
+  width: 1px;
+  background: #e2e8f0;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .bento-flex-container {
+    flex-direction: column;
+  }
+  .vertical-separator {
+    display: none;
+  }
 }
 
 .code-block {
@@ -215,6 +240,28 @@
   object-fit: contain;
   border-radius: 8px;
   margin: auto;
+}
+
+/* Bento Box Carousel Responsive Widths */
+.bento-box.agent-view,
+.bento-box.task-desc {
+  flex: 0 0 280px;
+}
+
+.bento-box.scene-merged {
+  flex: 0 0 540px;
+}
+
+@media screen and (max-width: 768px) {
+  .bento-box.agent-view,
+  .bento-box.task-desc {
+    flex: 0 0 calc(100vw - 4rem);
+    min-width: 250px;
+  }
+  .bento-box.scene-merged {
+    flex: 0 0 calc(100vw - 4rem);
+    min-width: 280px;
+  }
 }
 
 /* Stage 2: Planner */
@@ -297,6 +344,9 @@
 /* Stage 3: Matrix */
 .matrix-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  width: 100% !important;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -310,6 +360,14 @@
   width: 100%;
   border-collapse: collapse;
   height: 100%;
+  min-width: 600px;
+}
+
+@media screen and (max-width: 768px) {
+  .matrix-table th, .matrix-table td {
+    padding: 0.8rem 0.5rem !important;
+    font-size: 0.85rem !important;
+  }
 }
 
 .matrix-table th, .matrix-table td {
@@ -369,24 +427,31 @@
   margin-top: auto;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1152px) {
   .method-console-wrapper {
     flex-direction: column;
+    gap: 1.5rem;
   }
   .console-nav {
     flex: auto;
     flex-direction: row;
     overflow-x: auto;
-    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
   }
   .nav-item {
-    min-width: 250px;
+    min-width: 200px;
   }
   .bento-grid {
     grid-template-columns: 1fr;
   }
   .report-split {
     flex-direction: column;
+  }
+  .stage-content {
+    padding: 1.25rem 1rem;
   }
 }
 .step-circle {
@@ -442,6 +507,17 @@
 
 .carousel-btn.next-btn {
   right: -18px;
+}
+
+@media screen and (max-width: 768px) {
+  .carousel-btn.prev-btn {
+    left: 0;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  .carousel-btn.next-btn {
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+  }
 }
 
 .action-library {
@@ -624,6 +700,15 @@
   align-items: stretch;
 }
 
+@media screen and (max-width: 1024px) {
+  .prop-split-view {
+    flex-direction: column;
+  }
+  .prop-text-content, .prop-visual-content {
+    width: 100% !important;
+  }
+}
+
 .prop-text-content {
   flex: 1;
   display: flex;
@@ -782,16 +867,25 @@
   height: 100%;
 }
 
+@media screen and (max-width: 1024px) {
+  .report-split-view {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+}
+
 .report-trace-panel {
   flex: 3;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .report-insight-panel {
   flex: 2;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .report-global-status {
