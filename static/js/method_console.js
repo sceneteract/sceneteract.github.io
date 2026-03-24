@@ -31,11 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const slideWidth = 274; 
     let currentIndex = 0;
     
-    // Allow enough slides to reveal the last item. 
-    // Usually 2 clicks is enough to reveal item 4 if container fits ~2.5 items.
-    const maxIndex = 2; 
+    const getMaxIndex = () => {
+      const containerWidth = track.parentElement.clientWidth;
+      const totalWidth = track.scrollWidth;
+      // How many pixels are currently hidden on the right
+      const hiddenWidth = totalWidth - containerWidth;
+      if (hiddenWidth <= 0) return 0;
+      // Max index is how many slideWidths we can shift before reaching the end
+      return Math.ceil(hiddenWidth / slideWidth);
+    };
 
     const updateCarousel = () => {
+      const maxIndex = getMaxIndex();
+      if (currentIndex > maxIndex) currentIndex = maxIndex;
+
       track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
       
       prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
@@ -45,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nextBtn.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
     };
 
+    window.addEventListener('resize', updateCarousel);
     updateCarousel();
 
     prevBtn.addEventListener('click', (e) => {
@@ -57,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      const maxIndex = getMaxIndex();
       if (currentIndex < maxIndex) {
         currentIndex++;
         updateCarousel();
@@ -72,14 +83,33 @@ document.addEventListener('DOMContentLoaded', () => {
   if (inputTrack && inputPrevBtn && inputNextBtn) {
     const cards = inputTrack.querySelectorAll('.bento-box');
     let inputCurrentIndex = 0;
-    const inputMaxIndex = cards.length > 0 ? cards.length - 1 : 0; 
+    
+    const getInputMaxIndex = () => {
+      // Find the last index where a card's right edge is beyond the container's right edge
+      const containerWidth = inputTrack.parentElement.clientWidth;
+      let lastVisibleIndex = 0;
+      for (let i = 0; i < cards.length; i++) {
+        const cardRight = cards[i].offsetLeft + cards[i].offsetWidth - cards[0].offsetLeft;
+        if (cardRight > containerWidth) {
+          // If this card (or any after it) starts after the first card, it's a potential stop
+          lastVisibleIndex = i;
+        }
+      }
+      // If the entire track fits, maxIndex is 0
+      if (inputTrack.scrollWidth <= containerWidth) return 0;
+      
+      // We want to be able to click 'next' as long as the last card is not fully in view at the right edge
+      // But for simplicity with index-based navigation:
+      return cards.length - 1;
+    };
 
     const updateInputCarousel = () => {
+      const inputMaxIndex = getInputMaxIndex();
+      if (inputCurrentIndex > inputMaxIndex) inputCurrentIndex = inputMaxIndex;
+
       // Calculate the offset to the current card
       let offset = 0;
       if (inputCurrentIndex > 0 && cards[inputCurrentIndex]) {
-        // Shift enough to bring the target card to the left edge
-        // Note: the track has gap, so we need to account for it by using the child's relative offset
         offset = cards[inputCurrentIndex].offsetLeft - cards[0].offsetLeft;
         
         // Prevent scrolling past the end of the track
@@ -94,11 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
       inputPrevBtn.style.opacity = inputCurrentIndex === 0 ? '0.3' : '1';
       inputPrevBtn.style.pointerEvents = inputCurrentIndex === 0 ? 'none' : 'auto';
       
-      inputNextBtn.style.opacity = inputCurrentIndex >= inputMaxIndex ? '0.3' : '1';
-      inputNextBtn.style.pointerEvents = inputCurrentIndex >= inputMaxIndex ? 'none' : 'auto';
+      const maxScroll = inputTrack.scrollWidth - inputTrack.parentElement.clientWidth;
+      const isAtEnd = maxScroll <= 0 || offset >= maxScroll - 5; // 5px tolerance
+      
+      inputNextBtn.style.opacity = isAtEnd ? '0.3' : '1';
+      inputNextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
     };
 
-    // Use ResizeObserver or window resize to ensure offsets update if window size changes
     window.addEventListener('resize', updateInputCarousel);
     setTimeout(updateInputCarousel, 100);
 
@@ -112,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inputNextBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      const inputMaxIndex = getInputMaxIndex();
       if (inputCurrentIndex < inputMaxIndex) {
         inputCurrentIndex++;
         updateInputCarousel();

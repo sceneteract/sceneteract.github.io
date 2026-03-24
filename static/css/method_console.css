@@ -153,7 +153,6 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-  width: 100%;
 }
 
 .bento-header {
@@ -166,6 +165,13 @@
   align-items: center;
   gap: 10px;
   border-bottom: 1px solid rgba(0, 112, 192, 0.1);
+}
+
+.bento-header-title {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .bento-header i {
@@ -194,10 +200,16 @@
 
 @media screen and (max-width: 768px) {
   .bento-flex-container {
-    flex-direction: column;
+    flex-direction: row; /* Keep side-by-side */
+    gap: 1.25rem;
+    overflow: visible;
+  }
+  .bento-flex-container > div {
+    min-width: 250px; /* Ensure content is readable */
+    flex: 0 0 auto !important;
   }
   .vertical-separator {
-    display: none;
+    display: block; /* Keep separator */
   }
 }
 
@@ -259,8 +271,7 @@
     min-width: 250px;
   }
   .bento-box.scene-merged {
-    flex: 0 0 calc(100vw - 4rem);
-    min-width: 280px;
+    flex: 0 0 540px; /* Keep it wide for side-by-side items */
   }
 }
 
@@ -534,17 +545,21 @@
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 1.5rem;
+  max-width: 100%;
 }
 
 .plan-step {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  flex-wrap: wrap; /* Important for mobile */
+  gap: 0.5rem 1rem;
   background: #ffffff;
   padding: 0.8rem 1.2rem;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  max-width: 100%;
+  overflow: hidden; /* Prevent text leak */
 }
 
 .plan-step-num {
@@ -559,6 +574,7 @@
   font-family: 'Fira Code', monospace;
   font-weight: 600;
   color: #78206E;
+  word-break: break-all;
 }
 
 .plan-step-object {
@@ -568,6 +584,8 @@
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-size: 0.9rem;
+  word-break: break-all;
+  max-width: 100%;
 }
 
 
