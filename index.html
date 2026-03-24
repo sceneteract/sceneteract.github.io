@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title"
+    content="SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes - Maillard et al.">
+  <meta name="description"
+    content="SceneTeract verifies 3D scene functionality via agent-aware geometric checks, exposing critical gaps in synthetic scenes and frontier VLM spatial reasoning.">
+  <meta name="keywords"
+    content="3D Scene Understanding, Embodied AI, Vision-Language Planning, Geometric Grounding, Affordance Diagnostic, Machine Learning, Computer Vision, AI">
+  <meta name="author"
+    content="Léopold Maillard, Francis Engelmann, Tom Durand, Boxiao Pan, Yang You, Or Litany, Leonidas Guibas, Maks Ovsjanikov">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Guibas Lab, Stanford University">
+  <meta property="og:title"
+    content="SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes - Maillard et al.">
+  <meta property="og:description"
+    content="SceneTeract verifies 3D scene functionality via agent-aware geometric checks, exposing critical gaps in synthetic scenes and frontier VLM spatial reasoning.">
+  <meta property="og:url" content="https://sceneteract.github.io">
+  <meta property="og:image" content="https://sceneteract.github.io/static/sceneteract-social-media.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SceneTeract - Research Preview">
+  <!-- <meta property="article:published_time" content="2026-03-24T00:00:00.000Z"> -->
+  <meta property="article:author" content="Léopold Maillard">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="3D Scene Understanding">
+  <meta property="article:tag" content="Embodied AI">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Stanford">
+  <meta name="twitter:creator" content="@LeopoldMaillard">
+  <meta name="twitter:title"
+    content="SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes - Maillard et al.">
+  <meta name="twitter:description"
+    content="SceneTeract verifies 3D scene functionality via agent-aware geometric checks, exposing critical gaps in synthetic scenes and frontier VLM spatial reasoning.">
+  <meta name="twitter:image" content="https://sceneteract.github.io/static/sceneteract-social-media.png">
+  <meta name="twitter:image:alt" content="SceneTeract - Research Preview">
+
+  <!-- TODO: Academic/Research Specific -->
+  <!-- <meta name="citation_title" content="SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes">
+  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
+  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="arXiv">
+  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf"> -->
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <title>SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/png" href="static/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="static/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="static/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="static/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="static/favicon/site.webmanifest" />
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/pipeline_interactive.css">
+  <link rel="stylesheet" href="static/css/method_console.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/index.js"></script>
+  <script defer src="static/js/pipeline.js"></script>
+  <script defer src="static/js/method_console.js"></script>
+
+  <!-- MathJax for LaTeX Support -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Chart.js for Spider Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes",
+  "description": "SceneTeract verifies 3D scene functionality via agent-aware geometric checks, exposing critical gaps in synthetic scenes and frontier VLM spatial reasoning.",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Léopold Maillard",
+      "affiliation": [
+        {
+          "@type": "Organization",
+          "name": "Stanford University"
+        },
+        {
+          "@type": "Organization",
+          "name": "École Polytechnique"
+        },
+        {
+          "@type": "Organization",
+          "name": "Dassault Systèmes"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "name": "Francis Engelmann",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Stanford University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Tom Durand",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Dassault Systèmes"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Boxiao Pan",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Stanford University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Yang You",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Stanford University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Or Litany",
+      "affiliation": [
+        {
+          "@type": "Organization",
+          "name": "Technion"
+        },
+        {
+          "@type": "Organization",
+          "name": "NVIDIA"
+        }
+      ]
+    },
+    {
+      "@type": "Person",
+      "name": "Leonidas Guibas",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Stanford University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Maks Ovsjanikov",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "École Polytechnique"
+      }
+    }
+  ]
+}
+</script>
+
+</head>
+
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- More Works Dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from the Authors">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works from the Authors</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="https://arxiv.org/abs/2409.18336" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>DeBaRA: Denoising-Based 3D Room Arrangement Generation</h5>
+            <p>A score-based generative model for precise and controllable 3D indoor scene synthesis.</p>
+            <span class="work-venue">NeurIPS 2024</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/2507.03257" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>LACONIC: A 3D Layout Adapter for Controllable Image Creation</h5>
+            <p>An adapter for pretrained T2I models enabling layout-guided, 3D-aware image synthesis with camera and
+              object-level control.</p>
+            <span class="work-venue">ICCV 2025</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <!-- <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 3</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a> -->
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-widescreen">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                <img src="static/favicon/favicon.svg" alt="SceneTeract Logo" class="publication-title-logo" />
+                <span class="publication-title-text">SceneTeract</span>
+              </h1>
+              <h2 class="subtitle is-3 publication-subtitle">Agentic Functional Affordances and VLM Grounding in 3D
+                Scenes</h2>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://www.lix.polytechnique.fr/~maillard/" target="_blank">Léopold
+                    Maillard</a><sup>1,2,3*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://francisengelmann.github.io/" target="_blank">Francis
+                    Engelmann</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=xyMLqX4AAAAJ" target="_blank">Tom
+                    Durand</a><sup>3</sup>,</span>
+                <span class="author-block">
+                  <a href="https://cs.stanford.edu/~bxpan/" target="_blank">Boxiao Pan</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="https://qq456cvb.github.io/" target="_blank">Yang You</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="https://orlitany.github.io/" target="_blank">Or Litany</a><sup>4,5</sup>,</span>
+                <span class="author-block">
+                  <a href="https://geometry.stanford.edu/?member=guibas" target="_blank">Leonidas
+                    Guibas</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="https://www.lix.polytechnique.fr/~maks/" target="_blank">Maks
+                    Ovsjanikov</a><sup>2</sup></span>
+                </span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"><sup>1</sup><span style="color: #8C1515;">Stanford
+                    University</span></span>&nbsp;&nbsp;&nbsp;
+                <span class="author-block"><sup>2</sup><span style="color: #01426A;">École
+                    Polytechnique</span></span>&nbsp;&nbsp;&nbsp;
+                <span class="author-block"><sup>3</sup><span style="color: #009CDE;">Dassault
+                    Systèmes</span></span>&nbsp;&nbsp;&nbsp;
+                <span class="author-block"><sup>4</sup><span
+                    style="color: #002147;">Technion</span></span>&nbsp;&nbsp;&nbsp;
+                <span class="author-block"><sup>5</sup><span style="color: #76B900;">NVIDIA</span></span>
+              </div>
+
+              <div class="is-size-5 publication-authors mt-3">
+                <span class="author-block">arXiv 2026</span>
+                <span class="eql-cntrb"><small><br><sup>*</sup>Corresponding author:
+                    <a href="mailto:leopold.maillard@polytechnique.edu"
+                      style="color: #64748b !important; font-weight: 400 !important;">leopold.maillard@polytechnique.edu</a></small></span>
+              </div>
+
+              <div class="publication-links">
+                <!-- arXiv Link -->
+                <span class="link-block">
+                  <a href="javascript:void(0)" class="external-link button is-normal is-rounded is-dark is-coming-soon">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                <!-- Paper PDF Link -->
+                <span class="link-block">
+                  <a href="javascript:void(0)" class="external-link button is-normal is-rounded is-dark is-coming-soon">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- Code Link -->
+                <span class="link-block">
+                  <a href="javascript:void(0)" class="external-link button is-normal is-rounded is-dark is-coming-soon">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- Dataset Link -->
+                <span class="link-block">
+                  <a href="javascript:void(0)" class="external-link button is-normal is-rounded is-dark is-coming-soon">
+                    <span class="icon">
+                      <i class="fa fa-database"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+              </div>
+
+              <!-- Interactive Methodology Pipeline (Moved into Hero) -->
+              <div class="interactive-pipeline-wrapper mt-6">
+                <div class="pipeline-visuals" id="pipeline-visuals">
+                  <div class="pipeline-stack">
+                    <!-- Full pipeline background, dims on hover -->
+                    <img src="svg/full_pipeline.webp" class="pipeline-bg" alt="SceneTeract Pipeline Background">
+
+                    <!-- Individual High-Res PNG Tiles construct the full image natively -->
+                    <img src="svg/1_inputs.webp" class="pipeline-tile tile-1" alt="Inputs">
+                    <img src="svg/2_planning.webp" class="pipeline-tile tile-2" alt="Planning">
+                    <img src="svg/3_grounding.webp" class="pipeline-tile tile-3" alt="Grounding">
+                    <img src="svg/4_reporting.webp" class="pipeline-tile tile-4" alt="Reporting">
+
+                    <!-- Invisible Hover Zones -->
+                    <div class="pipeline-overlay">
+                      <div class="pipeline-zone zone-1" data-target="info-1"></div>
+                      <div class="pipeline-zone zone-2" data-target="info-2"></div>
+                      <div class="pipeline-zone zone-3" data-target="info-3"></div>
+                      <div class="pipeline-zone zone-4" data-target="info-4"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Info Text Container -->
+                <div class="pipeline-text-container has-text-left" id="pipeline-text-container"
+                  data-active="info-default">
+                  <div class="pipeline-pointer"></div>
+
+                  <div id="info-default" class="pipeline-info-block active">
+                    <h3>SceneTeract Overview</h3>
+                    <p>SceneTeract is a verification engine that, given a 3D scene, an
+                      embodied agent profile, and a target activity, decomposes the task into atomic actions
+                      and validates each step with explicit geometric and physical checks, producing finegrained and
+                      actionable feasibility diagnostics.</p>
+                  </div>
+
+                  <div id="info-1" class="pipeline-info-block">
+                    <h3>1. Agent-Centric Input</h3>
+                    <p>Affordance is not an intrinsic property of a scene, but a relational one. Along with the 3D scene
+                      representation and an activity description, SceneTeract takes as input an embodied <strong>Agent
+                        Profile</strong> encompassing distinct physical capabilities like mobility factors and reach
+                      distances.</p>
+                  </div>
+
+                  <div id="info-2" class="pipeline-info-block">
+                    <h3>2. Activity Decomposition and Planning</h3>
+                    <p>Complex indoor activities can be <strong>decomposed</strong> into sequences of simple, atomic
+                      agent-object
+                      interactions. Leveraging the semantic reasoning capabilities of VLMs, we plan these activities
+                      using a fixed, closed-vocabulary library of <strong>atomic actions</strong>.</p>
+                  </div>
+
+                  <div id="info-3" class="pipeline-info-block">
+                    <h3>3. Geometric Grounding</h3>
+                    <p>The success of any atomic action depends on satisfying a finite set of <strong>physical and
+                        spatial constraints</strong>. We verify these properties (e.g., navigation, reachability,
+                      clearance) using explicit
+                      <strong>3D geometric tools</strong>, ensuring that agent-specific limitations are respected.
+                    </p>
+                  </div>
+
+                  <div id="info-4" class="pipeline-info-block">
+                    <h3>4. Unified Deployment across Evaluation and Training</h3>
+                    <p>We apply SceneTeract as a single verification engine for <strong>scene auditing</strong>, VLM
+                      functional judgment
+                      <strong>benchmarking</strong>, and reinforcement-learning <strong>reward supervision</strong>,
+                      showing that its granular reports
+                      support both failure diagnosis and downstream model improvement.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paper abstract -->
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Embodied AI depends on interactive 3D environments that support meaningful activities for diverse users,
+                yet assessing their functional affordances remains a core challenge. We introduce SceneTeract, a
+                framework that verifies 3D scene functionality under agent-specific constraints. Our core contribution
+                is a grounded verification engine that couples high-level semantic reasoning with low-level geometric
+                checks. SceneTeract decomposes complex activities into sequences of atomic actions and validates each
+                step against accessibility requirements (<i>e.g.</i>, reachability, clearance, and navigability)
+                conditioned on an embodied agent profile, using explicit physical and geometric simulations. We deploy
+                SceneTeract to perform an in-depth evaluation of (i) synthetic indoor environments, uncovering frequent
+                functional failures that prevent basic interactions, and (ii) the ability of frontier Vision-Language
+                Models (VLMs) to reason about and predict functional affordances, revealing systematic mismatches
+                between semantic confidence and physical feasibility even for the strongest current models. Finally, we
+                leverage SceneTeract as a reward engine for VLM post-training, enabling scalable distillation of
+                geometric constraints into reasoning models. We release the SceneTeract verification suite and data to
+                bridge perception and physical reality in embodied 3D scene understanding.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End paper abstract -->
+
+
+    <!-- Method Section (Interactive Console) -->
+    <section class="section hero">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered">
+          <div class="column is-full">
+            <h2 class="title is-3 has-text-centered">Method</h2>
+
+            <div class="method-console-wrapper">
+
+              <!-- Left Pane: Navigator -->
+              <div class="console-nav">
+
+                <div class="nav-item nav-inputs active" data-target="stage-1">
+                  <div class="nav-number">Step 1</div>
+                  <h3 class="nav-title">Input Space</h3>
+                  <p class="nav-desc">Defining the agent properties, multi-object scene, and high-level task.</p>
+                </div>
+
+                <div class="nav-item nav-planning" data-target="stage-2">
+                  <div class="nav-number">Step 2</div>
+                  <h3 class="nav-title">Semantic Planner</h3>
+                  <p class="nav-desc">VLM-driven decomposition into a sequence of atomic actions.</p>
+                </div>
+
+                <div class="nav-item nav-grounding" data-target="stage-3">
+                  <div class="nav-number">Step 3</div>
+                  <h3 class="nav-title">Geometric Grounding</h3>
+                  <p class="nav-desc">Validating actions against physical and spatial properties.</p>
+                </div>
+
+                <div class="nav-item nav-reporting" data-target="stage-4">
+                  <div class="nav-number">Step 4</div>
+                  <h3 class="nav-title">Diagnostic Report</h3>
+                  <p class="nav-desc">Pinpointing explicit, actionable failure points within the plan.</p>
+                </div>
+
+              </div>
+
+              <!-- Right Pane: The Stage -->
+              <div class="console-stage">
+
+                <!-- Stage 1: Inputs -->
+                <div class="stage-content active" id="stage-1">
+                  <div class="stage-header">
+                    <h3>Input Triplet \( (\mathcal{A}, \mathcal{S}, \mathcal{T}) \)</h3>
+                    <p>The verification context is defined as a <i>scene-task-agent</i> input triplet.</p>
+                  </div>
+
+                  <div class="library-carousel-wrapper" style="margin-top: 1rem;">
+                    <button class="carousel-btn prev-btn" id="input-prev">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div style="overflow: hidden; border-radius: 12px; padding: 0.2rem; width: 100%;">
+                      <div id="input-scroll"
+                        style="display: flex; gap: 1.5rem; transition: transform 0.4s ease-in-out; width: max-content; padding-right: 2rem;">
+
+                        <!-- Agent Box -->
+                        <div class="bento-box agent-view" style="flex: 0 0 280px; margin: 0;">
+                          <div class="bento-header">
+                            <i class="fas fa-user-astronaut"></i> Agent Profile \( \mathcal{A} \)
+                          </div>
+                          <div class="bento-body">
+                            <p>Agent parameterization defining its navigation and manipulation properties.</p>
+                            <div style="margin-top: 1rem; display: flex; justify-content: center;">
+                              <img loading="lazy" decoding="async" src="svg/agent.webp" alt="Agent Parameters"
+                                style="max-height: 180px;">
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Merged Scene Box -->
+                        <div class="bento-box scene-merged" style="flex: 0 0 540px; margin: 0;">
+                          <div class="bento-header">
+                            <i class="fas fa-cubes"></i> Multi-object 3D Scene \( \mathcal{S} \)
+                          </div>
+                          <div class="bento-body">
+                            <div style="display: flex; gap: 1.25rem; align-items: stretch;">
+                              <div style="flex: 1; display: flex; flex-direction: column;">
+                                <p class="mb-2 text-sm">Rendering \( \Pi_{\text{vis}}(\cdot) \)</p>
+                                <div
+                                  style="flex-grow: 1; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border-radius: 8px; padding: 10px;">
+                                  <img loading="lazy" decoding="async" src="svg/top-down.webp" alt="Top-down Scene View"
+                                    style="max-width: 100%; max-height: 180px; object-fit: contain;">
+                                </div>
+                              </div>
+
+                              <!-- Vertical Separator -->
+                              <div style="width: 1px; background: #e2e8f0; margin: 0;"></div>
+
+                              <div style="flex: 1; display: flex; flex-direction: column;">
+                                <p class="mb-2 text-sm">Structured input \( \Pi_{\text{txt}}(\cdot) \)</p>
+                                <pre class="code-block" style="flex-grow: 1;"><code><span style="font-size: 0.7rem; line-height: 1.4; color: #e2e8f0;">{
+  "scene_id": "LivingRoom-1097",
+  "objects": [
+    {
+      "id": 0,
+      "category": "multi_seat_sofa",
+      "position": [0.74, 0.53, 0.08]
+    }, ...
+  ]
+}</span></code></pre>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Task Box -->
+                        <div class="bento-box task-desc" style="flex: 0 0 280px; margin: 0;">
+                          <div class="bento-header">
+                            <i class="fas fa-comment-dots"></i> Task \( \mathcal{T} \)
+                          </div>
+                          <div class="bento-body">
+                            <p>An open-ended, complex indoor activity in natural language.</p>
+                            <div class="task-bubble" style="margin-top: 1rem; font-size: 0.95rem;">"Grab something to
+                              eat in the cabinet and relax watching TV."</div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <button class="carousel-btn next-btn" id="input-next">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+
+                  <!-- Next Stage Button -->
+                  <div class="next-stage-wrapper">
+                    <div class="next-stage-teaser">
+                      From this input triplet, a VLM plans the task using a predefined set of primitive actions.
+                    </div>
+                    <button class="next-stage-btn to-stage-2" data-target="stage-2" title="Next: Semantic Planning">
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Stage 2: Planner -->
+                <div class="stage-content" id="stage-2">
+                  <div class="stage-header">
+                    <h3>Semantic Planning \( \Phi \)</h3>
+                    <p>A VLM translates open-ended tasks into executable sequences.</p>
+                  </div>
+
+                  <div class="planner-flow">
+                    <div class="system-prompt">
+                      &gt; <span class="highlight">System:</span> You are an expert in task planning for embodied agents
+                      in 3D environments. Your task is to decompose the user's high-level activity into a sequence of
+                      atomic actions from the provided library.
+                    </div>
+
+                    <div>
+                      <h4 style="margin-bottom: 0.5rem; font-weight: 600; color: #1e293b;">Atomic Action Library \(
+                        \mathbb{A} \)</h4>
+                      <p style="margin-bottom: 1.5rem; color: #64748b; font-size: 0.95rem;">Each atomic action is paired
+                        with a target scene object to form an interaction tuple \( (a, o) \). They are categorized into
+                        four functional families.</p>
+                      <div class="library-carousel-wrapper">
+                        <button class="carousel-btn prev-btn" id="library-prev">
+                          <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="action-library-container"
+                          style="overflow: hidden; border-radius: 12px; padding: 0.2rem;">
+                          <div class="action-library" id="action-library-scroll">
+                            <div class="library-family">
+                              <h5>Mobility \( \mathbb{A}_{\text{m}} \)</h5>
+                              <span class="action-tag">NavigateTo</span>
+                              <span class="action-tag">SitOn</span>
+                              <span class="action-tag">LieOn</span>
+                            </div>
+                            <div class="library-family">
+                              <h5>Contact \( \mathbb{A}_{\text{c}} \)</h5>
+                              <span class="action-tag">Toggle</span>
+                              <span class="action-tag">PickUpFrom</span>
+                              <span class="action-tag">ReleaseOn</span>
+                            </div>
+                            <div class="library-family">
+                              <h5>Handling \( \mathbb{A}_{\text{h}} \)</h5>
+                              <span class="action-tag">Open</span>
+                              <span class="action-tag">Close</span>
+                              <span class="action-tag">PutIn</span>
+                              <span class="action-tag">TakeOutOf</span>
+                            </div>
+                            <div class="library-family">
+                              <h5>Perception \( \mathbb{A}_{\text{p}} \)</h5>
+                              <span class="action-tag">LookAt</span>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="carousel-btn next-btn" id="library-next">
+                          <i class="fas fa-chevron-right"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="bento-box plan-accordion" id="generated-plan-box"
+                      style="border-color: rgba(120, 32, 110, 0.2);">
+                      <div class="bento-header" id="generated-plan-header"
+                        style="background: rgba(255, 242, 254, 0.8); color: #78206E; border-bottom: 1px solid rgba(120, 32, 110, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1.5rem; flex-grow: 1;">
+                          <span style="white-space: nowrap;"><i class="fas fa-list-ol" style="color: #78206E;"></i>
+                            Generated Plan \( \pi \)</span>
+                          <span
+                            style="font-size: 0.85rem; font-weight: 400; color: #78206E; opacity: 0.8; line-height: 1.3; flex-grow: 1;">A
+                            VLM \( \Phi \) decomposes the activity from the multimodal input context, yielding a
+                            multi-step action plan.</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"
+                          style="color: #78206E; transition: transform 0.3s; flex-shrink: 0;"></i>
+                      </div>
+                      <div class="bento-body" id="generated-plan-body" style="display: none; padding-top: 1rem;">
+                        <div class="plan-sequence" style="background: #fdfafc; border-color: rgba(120, 32, 110, 0.1);">
+                          <div class="plan-step">
+                            <span class="plan-step-num">1.</span>
+                            <span class="plan-step-action">NavigateTo</span>
+                            <span class="plan-step-object">cabinet_1</span>
+                          </div>
+                          <div class="plan-step">
+                            <span class="plan-step-num">2.</span>
+                            <span class="plan-step-action">Open</span>
+                            <span class="plan-step-object">cabinet_1</span>
+                          </div>
+                          <div class="plan-step">
+                            <span class="plan-step-num">3.</span>
+                            <span class="plan-step-action">NavigateTo</span>
+                            <span class="plan-step-object">sofa_1</span>
+                          </div>
+                          <div class="plan-step">
+                            <span class="plan-step-num">4.</span>
+                            <span class="plan-step-action">SitOn</span>
+                            <span class="plan-step-object">sofa_1</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Next Stage Button -->
+                  <div class="next-stage-wrapper">
+                    <div class="next-stage-teaser">
+                      Each action is then mapped to explicit physical properties to verify geometric feasibility.
+                    </div>
+                    <button class="next-stage-btn to-stage-3" data-target="stage-3" title="Next: Geometric Grounding">
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Stage 3: Grounding -->
+                <div class="stage-content" id="stage-3">
+                  <div class="stage-header">
+                    <h3>Geometric Grounding \( \Psi \)</h3>
+                    <p>Mapping semantic actions to explicit physical, agent-aware verifications.</p>
+                  </div>
+
+                  <div style="margin-bottom: 1.5rem; color: #475569; font-size: 1rem; line-height: 1.5;">
+                    <p>Based on their family membership, actions are mapped to a sequence of geometric checks that are
+                      validated against the 3D scene and the agent's physical constraints.</p>
+                  </div>
+
+                  <div class="matrix-container" style="flex-grow: 0; margin-bottom: 1.5rem;">
+                    <table class="matrix-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 25%;">Action Family</th>
+                          <th class="prop-header" data-prop="nav">
+                            <i class="fas fa-info-circle prop-info-icon"></i>
+                            <span>\( \mathcal{P}_{\text{nav}} \)</span>
+                          </th>
+                          <th class="prop-header" data-prop="reach">
+                            <i class="fas fa-info-circle prop-info-icon"></i>
+                            <span>\( \mathcal{P}_{\text{reach}} \)</span>
+                          </th>
+                          <th class="prop-header" data-prop="inter">
+                            <i class="fas fa-info-circle prop-info-icon"></i>
+                            <span>\( \mathcal{P}_{\text{inter}} \)</span>
+                          </th>
+                          <th class="prop-header" data-prop="clear">
+                            <i class="fas fa-info-circle prop-info-icon"></i>
+                            <span>\( \mathcal{P}_{\text{clear}} \)</span>
+                          </th>
+                          <th class="prop-header" data-prop="vis">
+                            <i class="fas fa-info-circle prop-info-icon"></i>
+                            <span>\( \mathcal{P}_{\text{vis}} \)</span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="action-name">Mobility \( \mathbb{A}_{\text{m}} \)</td>
+                          <td class="check-yes"><span class="step-circle">1</span></td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                        </tr>
+                        <tr>
+                          <td class="action-name">Contact \( \mathbb{A}_{\text{c}} \)</td>
+                          <td class="check-yes"><span class="step-circle">1</span></td>
+                          <td class="check-yes"><span class="step-circle">2</span></td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                        </tr>
+                        <tr>
+                          <td class="action-name">Handling \( \mathbb{A}_{\text{h}} \)</td>
+                          <td class="check-yes"><span class="step-circle">1</span></td>
+                          <td class="check-yes"><span class="step-circle">2</span></td>
+                          <td class="check-yes"><span class="step-circle">3</span></td>
+                          <td class="check-yes"><span class="step-circle">4</span></td>
+                          <td class="check-no">—</td>
+                        </tr>
+                        <tr>
+                          <td class="action-name">Perception \( \mathbb{A}_{\text{p}} \)</td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                          <td class="check-no">—</td>
+                          <td class="check-yes"><span class="step-circle">1</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- Interactive Details Panel -->
+                  <div class="property-details-panel">
+
+                    <div id="prop-default" class="prop-detail active">
+                      <div class="prop-empty-state">
+                        <i class="fas fa-hand-pointer fa-2x mb-3" style="color: #cbd5e1;"></i>
+                        <p>Select a geometric property column header to view its implementation details.</p>
+                      </div>
+                    </div>
+
+                    <div id="prop-nav" class="prop-detail">
+                      <div class="prop-split-view">
+                        <div class="prop-text-content">
+                          <h4 class="prop-title"><img src="static/icons/P_nav-alt.png" alt="">
+                            \(\mathcal{P}_{\text{nav}}\) : <code>isNavigableTo</code></h4>
+
+                          <div class="nav-carousel-controls">
+                            <button class="nav-tab active" data-step="1">1. Navigation Map</button>
+                            <button class="nav-tab" data-step="2">2. Zone Connectivity</button>
+                          </div>
+
+                          <div class="nav-step-content active" id="nav-step-1">
+                            <p><strong>Agent-Specific Navigation Map:</strong> First, the 3D scene geometry is projected
+                              onto a 2D occupancy grid. This grid is then morphologically eroded based on the agent's
+                              specific clearance width \( w_{\text{clear}} \), segmenting the scene into distinct
+                              navigation regions.</p>
+                          </div>
+
+                          <div class="nav-step-content" id="nav-step-2">
+                            <p><strong>Zone Resolution & Connectivity:</strong> A VLM resolves the correct semantic
+                              interaction zone(s) around the target object (e.g. the front of the couch). The system
+                              then verifies 2D path connectivity from the agent to this zone.</p>
+                          </div>
+                        </div>
+
+                        <div class="prop-visual-content" style="padding: 1rem 0.5rem; justify-content: flex-start;">
+                          <div class="nav-step-visual active" id="nav-vis-1">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/navigation/navmap-1.webp"
+                                alt="Nav Map 1" class="active">
+                              <img loading="lazy" decoding="async" src="svg/checks/navigation/navmap-2.webp"
+                                alt="Nav Map 2">
+                              <img loading="lazy" decoding="async" src="svg/checks/navigation/navmap-3.webp"
+                                alt="Nav Map 3">
+                              <img loading="lazy" decoding="async" src="svg/checks/navigation/navmap-4.webp"
+                                alt="Nav Map 4">
+                            </div>
+                            <div class="visual-legend">
+                              <div class="legend-item"><span class="legend-color" style="background: #7DBB70;"></span>
+                                Largest connected area</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #BDB870;"></span>
+                                Isolated connected area</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #A55D59;"></span>
+                                Agent collision area</div>
+                            </div>
+                          </div>
+
+                          <div class="nav-step-visual" id="nav-vis-2">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/navigation/connectivity-1.webp"
+                                alt="Connectivity 1" class="active" data-caption="(SitOn, couch)">
+                              <img loading="lazy" decoding="async" src="svg/checks/navigation/connectivity-2.webp"
+                                alt="Connectivity 2" data-caption="(Open, cabinet)">
+                            </div>
+                            <div class="current-visual-caption">(SitOn, couch)</div>
+                            <div class="visual-legend">
+                              <div class="legend-item">
+                                <span class="legend-color-multi">
+                                  <span style="background: #6172C1;"></span>
+                                  <span style="background: #80BB74;"></span>
+                                  <span style="background: #C95B53;"></span>
+                                  <span style="background: #BFB97C;"></span>
+                                </span>
+                                Candidate zones
+                              </div>
+                              <div class="legend-item"><span class="legend-color" style="background: #4164D1;"></span>
+                                Resolved navigable area</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #CE995A;"></span>
+                                Agent collision area</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="prop-reach" class="prop-detail">
+                      <div class="prop-split-view">
+                        <div class="prop-text-content">
+                          <h4 class="prop-title"><img src="static/icons/P_reach-alt.png" alt="">
+                            \(\mathcal{P}_{\text{reach}}\) : <code>isReachable</code></h4>
+                          <p>Computes the minimum Euclidean distance from the agent's connected navigable floor region
+                            to the target mesh, vertically translated by \( h_{\text{arm}} \), and validated against the
+                            maximum reach radius \( r_{\text{arm}} \).</p>
+                        </div>
+
+                        <div class="prop-visual-content" style="padding: 1rem 0.5rem; justify-content: flex-start;">
+                          <div class="nav-step-visual active">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/reach/reach-1.webp"
+                                alt="Reach Check 1" class="active" data-caption="(PickUpFrom, coffee_table)">
+                              <img loading="lazy" decoding="async" src="svg/checks/reach/reach-2.webp"
+                                alt="Reach Check 2" data-caption="(ReleaseOn, coffee_table)">
+                              <img loading="lazy" decoding="async" src="svg/checks/reach/reach-3.webp"
+                                alt="Reach Check 3" data-caption="(TakeOutOf, cabinet)">
+                            </div>
+                            <div class="current-visual-caption">(PickUpFrom, coffee_table)</div>
+                            <div class="visual-legend">
+                              <div class="legend-item"><span class="legend-color" style="background: #78C562;"></span>
+                                Object reach area</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #854288;"></span>
+                                Out-of-reach area</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #9A9998;"></span>
+                                Inaccessible area</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="prop-inter" class="prop-detail">
+                      <div class="prop-split-view">
+                        <div class="prop-text-content">
+                          <h4 class="prop-title"><img src="static/icons/P_grasp-alt.png" alt="">
+                            \(\mathcal{P}_{\text{inter}}\) : <code>isInteractable</code></h4>
+
+                          <div class="nav-carousel-controls">
+                            <button class="nav-tab active" data-step="1">1. Multi-View Segmentation</button>
+                            <button class="nav-tab" data-step="2">2. 3D Deprojection</button>
+                          </div>
+
+                          <div class="nav-step-content active" id="nav-step-1">
+                            <p><strong>Functional Part Identification:</strong> A VLM (Molmo) is prompted with
+                              orthographic views to identify interaction points on the functional part of the object
+                              (e.g. handles) given the intended action. These points serve as prompts for SAM to extract
+                              a precise 2D mask.</p>
+                          </div>
+
+                          <div class="nav-step-content" id="nav-step-2">
+                            <p><strong>3D Volume & Proximity:</strong> Using depth maps, masked pixels are deprojected
+                              into world-space coordinates across all views to form a unified 3D point cloud
+                              representing the interactable volume. We finally verify if this specific volume is within
+                              reach of the agent.</p>
+                          </div>
+                        </div>
+
+                        <div class="prop-visual-content" style="padding: 1rem 0.5rem; justify-content: flex-start;">
+                          <div class="nav-step-visual active" id="nav-vis-1">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/interactable/segmentation-1.webp"
+                                alt="Segmentation 1" class="active" data-caption="(Open, tv_stand)">
+                              <img loading="lazy" decoding="async" src="svg/checks/interactable/segmentation-2.webp"
+                                alt="Segmentation 2" data-caption="(Open, console_table)">
+                            </div>
+                            <div class="current-visual-caption">(Open, tv_stand)</div>
+                            <p class="caption">Left to right: Render view, predicted VLM interaction point, extracted
+                              SAM mask.</p>
+                          </div>
+
+                          <div class="nav-step-visual" id="nav-vis-2">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/interactable/volume-1.webp"
+                                alt="Volume 1" class="active" data-caption="(Open, tv_stand)">
+                              <img loading="lazy" decoding="async" src="svg/checks/interactable/volume-2.webp"
+                                alt="Volume 2" data-caption="(Open, console_table)">
+                            </div>
+                            <div class="current-visual-caption">(Open, tv_stand)</div>
+                            <div class="visual-legend">
+                              <div class="legend-item"><span class="legend-color" style="background: #BC84C3;"></span>
+                                Interactable volume</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="prop-clear" class="prop-detail">
+                      <div class="prop-split-view">
+                        <div class="prop-text-content">
+                          <h4 class="prop-title"><img src="static/icons/P_clear-alt.png" alt="">
+                            \(\mathcal{P}_{\text{clear}}\) : <code>hasClearance</code></h4>
+                          <p>Verifies if there is sufficient kinematic space in front of the target object to allow for
+                            articulation (e.g., door swing). A 3D interaction volume \(\mathcal{V}_{\text{clear}}\) is
+                            generated facing the interaction side and tested for collisions against the scene geometry.
+                          </p>
+                        </div>
+
+                        <div class="prop-visual-content" style="padding: 1rem 0.5rem; justify-content: flex-start;">
+                          <div class="nav-step-visual active">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/clearance/clearance-1.webp"
+                                alt="Clearance 1" class="active" data-caption="(Open, tv_stand)">
+                              <img loading="lazy" decoding="async" src="svg/checks/clearance/clearance-2.webp"
+                                alt="Clearance 2" data-caption="(PutIn, cabinet)">
+                              <img loading="lazy" decoding="async" src="svg/checks/clearance/clearance-3.webp"
+                                alt="Clearance 3" data-caption="(TakeOutOf, wine_cabinet)">
+                            </div>
+                            <div class="current-visual-caption">(Open, tv_stand)</div>
+                            <div class="visual-legend">
+                              <div class="legend-item"><span class="legend-color" style="background: #10b981;"></span>
+                                Collision-free clearance box</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #ef4444;"></span>
+                                Colliding clearance box</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="prop-vis" class="prop-detail">
+                      <div class="prop-split-view">
+                        <div class="prop-text-content">
+                          <h4 class="prop-title"><img src="static/icons/P_vis-alt.png" alt="">
+                            \(\mathcal{P}_{\text{vis}}\) : <code>isVisible</code></h4>
+                          <p>Determines if the target object is in the agent's line of sight, accounting for occlusion.
+                            \(\mathcal{P}_{\text{vis}}\) casts multiple rays from the agent's posture-adjusted eye
+                            position \( e_y \) to keypoints on the target's bounding box and computes a visibility
+                            ratio.</p>
+                        </div>
+
+                        <div class="prop-visual-content" style="padding: 1rem 0.5rem; justify-content: flex-start;">
+                          <div class="nav-step-visual active">
+                            <div class="visual-carousel">
+                              <img loading="lazy" decoding="async" src="svg/checks/visible/visible-1.webp"
+                                alt="Visibility 1" class="active" data-caption="(LookAt, tv_stand)">
+                              <img loading="lazy" decoding="async" src="svg/checks/visible/visible-2.webp"
+                                alt="Visibility 2" data-caption="(LookAt, tv_stand)">
+                              <img loading="lazy" decoding="async" src="svg/checks/visible/visible-3.webp"
+                                alt="Visibility 3" data-caption="(LookAt, dining_chair)">
+                            </div>
+                            <div class="current-visual-caption">(LookAt, tv_stand)</div>
+                            <div class="visual-legend">
+                              <div class="legend-item"><span class="legend-color" style="background: #10b981;"></span>
+                                Collision-free agent-to-object rays</div>
+                              <div class="legend-item"><span class="legend-color" style="background: #ef4444;"></span>
+                                Colliding agent-to-object rays</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Next Stage Button -->
+                  <div class="next-stage-wrapper">
+                    <div class="next-stage-teaser">
+                      Verification results are finally aggregated into an actionable, fine-grained diagnostic report.
+                    </div>
+                    <button class="next-stage-btn to-stage-4" data-target="stage-4" title="Next: Diagnostic Report">
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Stage 4: Report -->
+                <div class="stage-content" id="stage-4">
+                  <div class="stage-header">
+                    <h3>Diagnostic Report \( \mathcal{R} \)</h3>
+                    <p>SceneTeract provides grounded, granular, and actionable insights about the validity of the plan.
+                    </p>
+                  </div>
+
+                  <div class="report-split-view">
+
+                    <!-- Left: Hierarchical Trace -->
+                    <div class="report-trace-panel">
+                      <div class="report-global-status fail">
+                        <span class="status-label">Overall Feasibility:</span>
+                        <span class="status-badge fail"><i class="fas fa-times-circle"></i> FAILED</span>
+                      </div>
+
+                      <div class="trace-accordion">
+
+                        <!-- Step 1 -->
+                        <div class="trace-step pass">
+                          <div class="trace-header">
+                            <span class="step-num">Step 1</span>
+                            <span class="step-action">(NavigateTo, cabinet_1)</span>
+                            <span class="step-status"><i class="fas fa-check"></i> PASS</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                          </div>
+                          <div class="trace-details">
+                            <div class="prop-check pass">
+                              <div class="prop-name"><img src="static/icons/P_nav-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{nav}}\)</div>
+                              <div class="prop-msg">A collision-free path was found to an interaction zone.</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Step 2 (Failed Step) -->
+                        <div class="trace-step fail">
+                          <div class="trace-header">
+                            <span class="step-num">Step 2</span>
+                            <span class="step-action">(Open, cabinet_1)</span>
+                            <span class="step-status"><i class="fas fa-times"></i> FAIL</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                          </div>
+                          <div class="trace-details">
+                            <div class="prop-check pass">
+                              <div class="prop-name"><img src="static/icons/P_nav-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{nav}}\)</div>
+                              <div class="prop-msg">A collision-free path was found to an interaction zone.</div>
+                            </div>
+                            <div class="prop-check pass">
+                              <div class="prop-name"><img src="static/icons/P_reach-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{reach}}\)</div>
+                              <div class="prop-msg">Object is reachable. Required distance: 0.35m, Agent's reach: 0.40m.
+                              </div>
+                            </div>
+                            <div class="prop-check fail">
+                              <div class="prop-name"><img src="static/icons/P_grasp-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{inter}}\)</div>
+                              <div class="prop-msg">Interactable volume is unreachable. Required distance: 0.52m,
+                                Agent's reach: 0.40m.</div>
+                            </div>
+                            <div class="prop-check pass">
+                              <div class="prop-name"><img src="static/icons/P_clear-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{clear}}\)</div>
+                              <div class="prop-msg">Found 1 collision-free interaction zones.</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="trace-step pass">
+                          <div class="trace-header">
+                            <span class="step-num">Step 3</span>
+                            <span class="step-action">(NavigateTo, sofa_1)</span>
+                            <span class="step-status"><i class="fas fa-check"></i> PASS</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                          </div>
+                          <div class="trace-details">
+                            <div class="prop-check pass">
+                              <div class="prop-name"><img src="static/icons/P_nav-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{nav}}\)</div>
+                              <div class="prop-msg">A collision-free path was found to an interaction zone.</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="trace-step pass">
+                          <div class="trace-header">
+                            <span class="step-num">Step 4</span>
+                            <span class="step-action">(SitOn, sofa_1)</span>
+                            <span class="step-status"><i class="fas fa-check"></i> PASS</span>
+                            <i class="fas fa-chevron-down expand-icon"></i>
+                          </div>
+                          <div class="trace-details">
+                            <div class="prop-check pass">
+                              <div class="prop-name"><img src="static/icons/P_nav-alt.png" class="tiny-icon">
+                                \(\mathcal{P}_{\text{nav}}\)</div>
+                              <div class="prop-msg">A collision-free path was found to an interaction zone.</div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <!-- Right: Actionable Insight -->
+                    <div class="report-insight-panel">
+                      <div class="insight-card-wrapper">
+                        <div class="insight-card">
+                          <div class="insight-header">
+                            <i class="fas fa-robot"></i> Actionable Insight
+                          </div>
+                          <div class="insight-body">
+                            <p>The plan fails because the Child agent cannot <code>open</code> the
+                              <code>cabinet_1</code>. Although the cabinet is physically reachable, its functional
+                              handle is located at a distance of 0.52m, which physically exceeds the Child's maximum
+                              reach limit of 0.40m.
+                            </p>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Stage 4: Applications Card -->
+                  <div class="report-applications-panel">
+                    <div class="applications-card">
+                      <div class="insight-header">
+                        <i class="fas fa-layer-group"></i> Downstream Applications
+                      </div>
+                      <div class="applications-body">
+                        <div class="app-item">
+                          <span class="app-title"><i class="fas fa-search-location" style="color: #3b82f6;"></i> 3D
+                            Scene Auditing</span>
+                          <p class="app-desc">Identify architectural failure modes preventing basic accessibility across
+                            different user profiles.</p>
+                        </div>
+                        <div class="app-item">
+                          <span class="app-title"><i class="fas fa-chart-bar" style="color: #8b5cf6;"></i> VLM
+                            Benchmarking</span>
+                          <p class="app-desc">Quantify the gap between modern VLMs' semantic confidence and physical
+                            reasoning abilities.</p>
+                        </div>
+                        <div class="app-item">
+                          <span class="app-title"><i class="fas fa-brain" style="color: #10b981;"></i> GRPO
+                            Post-Training</span>
+                          <p class="app-desc">Use binary checks as a scalable reward signal to distill geometry
+                            constraints into language models.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Method Section -->
+
+
+
+
+    <!-- Experiments Section -->
+    <section class="section hero is-light" id="experiments">
+      <div class="container is-max-widescreen">
+        <h2 class="title is-3 has-text-centered">Experiments</h2>
+        <p class="has-text-centered mb-6 text-slate-500 max-w-3xl mx-auto">
+          We deploy the SceneTeract verifier across three distinct applications to highlight the functional gaps in
+          modern 3D synthetic scenes and VLMs, and demonstrate how geometric grounding can improve reasoning models.
+        </p>
+
+        <!-- Tabs -->
+        <div class="tabs is-toggle is-toggle-rounded is-centered experiments-tabs">
+          <ul>
+            <li data-tab="exp-auditing">
+              <a>
+                <span class="icon is-small"><i class="fas fa-search-location" style="color: #3b82f6;"></i></span>
+                <span>3D Scene Auditing</span>
+              </a>
+            </li>
+            <li class="is-active" data-tab="exp-benchmarking">
+              <a>
+                <span class="icon is-small"><i class="fas fa-chart-bar" style="color: #8b5cf6;"></i></span>
+                <span>VLM Benchmarking</span>
+              </a>
+            </li>
+            <li data-tab="exp-grpo">
+              <a>
+                <span class="icon is-small"><i class="fas fa-brain" style="color: #10b981;"></i></span>
+                <span>GRPO Post-Training</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="experiments-content-container">
+
+          <!-- 1. 3D Scene Auditing -->
+          <div id="exp-auditing" class="exp-pane">
+            <div class="box">
+              <h3 class="title is-4 mb-4"><i class="fas fa-search-location" style="color: #3b82f6;"></i> Auditing
+                Synthetic Environments</h3>
+              <p class="mb-5 text-slate-600" style="font-size: 0.95rem; line-height: 1.6;">
+                We benchmark the readiness of modern 3D environments for embodied interaction by evaluating complex
+                activities across 3,396 scene-task-agent configurations from the <a
+                  href="https://arxiv.org/abs/2011.09127" target="_blank"
+                  style="color: #3b82f6; text-decoration: underline;">3D-FRONT <i class="fas fa-external-link-alt"
+                    style="font-size: 0.7rem;"></i></a> dataset. As shown below, synthetic environments exhibit broad
+                functional feasibility gaps across the three user profiles, indicating that visually plausible
+                arrangements often fail to support basic everyday actions, especially for mobility-constrained agents
+                where restrictive spatial layouts act as a primary bottleneck.
+              </p>
+
+              <div class="columns is-desktop is-vcentered">
+                <div class="column is-6">
+                  <h4 class="title is-6 has-text-centered mb-4 text-slate-700">Overall & Action Success Rates</h4>
+                  <div class="benchmark-container">
+                    <table class="benchmark-table" style="width: 100%;">
+                      <thead>
+                        <tr>
+                          <th class="text-left">Metric</th>
+                          <th>Adult</th>
+                          <th>Child</th>
+                          <th>Wheelchair User</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="text-left font-bold text-slate-800">Task Success</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.25);">59.0%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.20);">66.0%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.38); font-weight: bold; color: #991b1b;">
+                            42.5%</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left model-name">is_Navigable_To</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.09);">84.7%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.07);">89.2%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.16);">73.0%</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left model-name">is_Reachable</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.05);">91.9%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.04);">93.7%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.11);">80.7%</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left model-name">is_Interactable</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.14);">75.6%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.16);">73.4%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.22);">64.1%</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left model-name">is_Visible</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.01);">98.7%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.01);">97.8%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.01);">97.7%</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left model-name">has_Clearance</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.19);">67.3%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.20);">66.3%</td>
+                          <td style="background-color: rgba(220, 38, 38, 0.20);">66.6%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="column is-6">
+                  <h4 class="title is-6 has-text-centered mb-4 text-slate-700">Atomic Action Success Rates</h4>
+                  <div style="position: relative; height: 350px; width: 100%;">
+                    <canvas id="auditingSpiderChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. VLM Benchmarking -->
+          <div id="exp-benchmarking" class="exp-pane is-active">
+            <div class="box">
+              <h3 class="title is-4 mb-4"><i class="fas fa-chart-bar" style="color: #8b5cf6;"></i> Quantifying VLM
+                Spatial Reasoning</h3>
+              <p class="mb-5 text-slate-600" style="font-size: 0.95rem; line-height: 1.6;">We evaluate frontier and
+                open-weight VLMs on their ability to correctly predict physical affordances. We compare native task
+                evaluation (<strong>Direct</strong>) against our granular, step-by-step action-level verification
+                (<strong>Decomposed</strong>). <span class="has-text-weight-semibold" style="color: #8b5cf6;">Click on
+                  any metric header below to see its detailed description.</span></p>
+
+              <div class="metric-details-panel">
+                <div id="metric-default" class="metric-detail">
+                  <div class="metric-empty-state">
+                    <i class="fas fa-hand-pointer fa-2x mb-3" style="color: #cbd5e1; display: block;"></i>
+                    <p>Select a metric column header to view its exact definition and role.</p>
+                  </div>
+                </div>
+
+                <div id="metric-action-acc" class="metric-detail">
+                  <h4>Action Accuracy</h4>
+                  <p>Measures a model's spatial perception and judgment at the most granular, atomic level. It asks: can
+                    the model correctly determine if a single, isolated action (like opening a specific drawer) is
+                    feasible given the agent's profile?</p>
+                </div>
+
+                <div id="metric-task-acc" class="metric-detail">
+                  <h4>Task Accuracy</h4>
+                  <p>Measures the capacity to evaluate complete, multi-step human activities. In the <em>decomposed</em>
+                    setting, task success is defined only if the model predicts all constituent actions in the sequence
+                    to be feasible.</p>
+                </div>
+
+                <div id="metric-task-fp" class="metric-detail">
+                  <h4>False Positive Rate (FP)</h4>
+                  <p>Quantifies physical hallucinations: how frequently a model predicts an impossible task is possible.
+                    A lower FP rate indicates a model is better at recognizing geometric and physical bottlenecks (like
+                    obstructed paths or out-of-reach objects).</p>
+                </div>
+
+                <div id="metric-task-mcc" class="metric-detail active">
+                  <h4>Matthews Correlation Coefficient (MCC)</h4>
+                  <p>Because our dataset contain natural class imbalances, MCC provides a robust, unified measure of
+                    classification quality. A higher score signifies better overall discrimination.</p>
+                </div>
+
+                <div id="metric-rel-ingap" class="metric-detail">
+                  <h4>Inclusivity Gap (InGap)</h4>
+                  <p>The maximum difference in task accuracy across the three agent profiles (Adult, Child, and
+                    Wheelchair user). A lower InGap indicates a fairer model that successfully internalizes the unique
+                    physical constraints of specific, diverse embodiments.</p>
+                </div>
+
+                <div id="metric-rel-hsi" class="metric-detail">
+                  <h4>Horizon Stability Index (HSI)</h4>
+                  <p>Measures resilience to compounding task complexity. Defined as the ratio of task accuracy on
+                    long-horizon tasks (3+ action steps) versus short-horizon tasks (1–2 steps). A score closer to 100%
+                    indicates strong invariance to task length.</p>
+                </div>
+
+                <div id="metric-rel-cons" class="metric-detail">
+                  <h4>Consistency (Cons.)</h4>
+                  <p>The percentage of tasks where a model's <em>direct</em> holistic prediction logically matches its
+                    <em>decomposed</em> step-by-step conclusion. This reveals a model's native capacity to break down
+                    complex activities internally without contradicting itself upon closer inspection.
+                  </p>
+                </div>
+              </div>
+
+              <div id="default-table-hint" class="default-table-hint">
+                <i class="fas fa-magic"></i> Hover over the highlighted colored cells to reveal key benchmark insights.
+              </div>
+              <div class="benchmark-container">
+                <table class="benchmark-table">
+                  <thead>
+                    <tr>
+                      <th colspan="2" rowspan="2">Model Configuration</th>
+                      <th colspan="1">Action</th>
+                      <th colspan="3">Task</th>
+                      <th colspan="3">Reliability</th>
+                    </tr>
+                    <tr>
+                      <th class="metric-header" data-metric="action-acc"><i class="fas fa-info-circle"></i> Acc &uarr;
+                      </th>
+                      <th class="metric-header" data-metric="task-acc"><i class="fas fa-info-circle"></i> Acc &uarr;
+                      </th>
+                      <th class="metric-header" data-metric="task-fp"><i class="fas fa-info-circle"></i> FP &darr;</th>
+                      <th class="metric-header active" data-metric="task-mcc"><i class="fas fa-info-circle"></i> MCC
+                        &uarr;</th>
+                      <th class="metric-header" data-metric="rel-ingap"><i class="fas fa-info-circle"></i> InGap &darr;
+                      </th>
+                      <th class="metric-header" data-metric="rel-hsi"><i class="fas fa-info-circle"></i> HSI &uarr;</th>
+                      <th class="metric-header" data-metric="rel-cons"><i class="fas fa-info-circle"></i> Cons. &uarr;
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <!-- Gemini 3 Flash -->
+                  <tbody class="model-cluster" data-model="flash">
+                    <tr>
+                      <td rowspan="2" class="text-left model-name">Gemini-3-Flash-Preview</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>62.1</td>
+                      <td>35.7</td>
+                      <td>0.144</td>
+                      <td>16.5</td>
+                      <td>79.2</td>
+                      <td rowspan="2">58.5</td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left target-cell blue tc-top tc-bottom tc-left">Decomposed</td>
+                      <td class="target-cell blue tc-top tc-bottom"><strong>77.1</strong></td>
+                      <td class="target-cell blue tc-top tc-bottom"><strong>69.9</strong></td>
+                      <td class="target-cell blue tc-top tc-bottom">12.0</td>
+                      <td class="target-cell blue tc-top tc-bottom"><strong>0.390</strong></td>
+                      <td class="target-cell blue tc-top tc-bottom">7.5</td>
+                      <td class="target-cell blue tc-top tc-bottom tc-right">94.7</td>
+                    </tr>
+                  </tbody>
+
+                  <!-- Gemini 3.1 Pro -->
+                  <tbody class="model-cluster" data-model="pro">
+                    <tr>
+                      <td rowspan="2" class="text-left model-name">Gemini-3.1-Pro-Preview</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>61.7</td>
+                      <td class="target-cell blue tc-top tc-left tc-right">22.4</td>
+                      <td>0.182</td>
+                      <td class="target-cell blue tc-top tc-left tc-right"><strong>4.5</strong></td>
+                      <td>89.3</td>
+                      <td rowspan="2">53.3</td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td>72.1</td>
+                      <td>61.6</td>
+                      <td class="target-cell blue tc-bottom tc-left tc-right"><strong>6.0</strong></td>
+                      <td>0.321</td>
+                      <td class="target-cell blue tc-bottom tc-left tc-right">6.9</td>
+                      <td>112.7</td>
+                    </tr>
+                  </tbody>
+
+                  <!-- Claude Sonnet -->
+                  <tbody class="model-cluster" data-model="sonnet">
+                    <tr>
+                      <td rowspan="2" class="text-left model-name">Claude-Sonnet-4-6</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>62.8</td>
+                      <td>21.9</td>
+                      <td>0.208</td>
+                      <td>12.8</td>
+                      <td>97.9</td>
+                      <td rowspan="2" class="target-cell blue tc-top tc-bottom tc-left tc-right"><strong>81.4</strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td>73.1</td>
+                      <td>62.3</td>
+                      <td>20.6</td>
+                      <td>0.201</td>
+                      <td>19.4</td>
+                      <td><strong>100.4</strong></td>
+                    </tr>
+                  </tbody>
+
+                  <!-- Open Models (Grouped to show MCC contrast) -->
+                  <tbody class="model-cluster" data-model="open_models">
+                    <tr style="border-top: 2px solid #e2e8f0;">
+                      <td rowspan="2" class="text-left model-name">Qwen3-VL-8B-Instruct</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>61.5</td>
+                      <td>32.9</td>
+                      <td>0.130</td>
+                      <td>17.6</td>
+                      <td>82.7</td>
+                      <td rowspan="2">69.5</td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td>67.5</td>
+                      <td><strong>62.3</strong></td>
+                      <td><strong>20.1</strong></td>
+                      <td><strong>0.204</strong></td>
+                      <td><strong>6.6</strong></td>
+                      <td><strong>99.2</strong></td>
+                    </tr>
+                    <tr>
+                      <td rowspan="2" class="text-left model-name">Gemma3-12B-Instruct</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>59.3</td>
+                      <td>40.2</td>
+                      <td class="cell-highlight-red target-cell red tc-top tc-bottom tc-left tc-right">-0.055</td>
+                      <td>22.5</td>
+                      <td>69.4</td>
+                      <td rowspan="2"><strong>93.7</strong></td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td><strong>75.0</strong></td>
+                      <td>61.7</td>
+                      <td>36.1</td>
+                      <td>0.116</td>
+                      <td>17.2</td>
+                      <td>78.2</td>
+                    </tr>
+                    <tr style="border-top: 2px solid #e2e8f0;">
+                      <td rowspan="2" class="text-left model-name">Ministral3-3B-Instruct</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>54.0</td>
+                      <td>33.3</td>
+                      <td class="cell-highlight-red target-cell red tc-top tc-left tc-right">-0.049</td>
+                      <td>15.0</td>
+                      <td>80.0</td>
+                      <td rowspan="2">21.7</td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td>34.5</td>
+                      <td>41.7</td>
+                      <td><strong>0.7</strong></td>
+                      <td class="cell-highlight-red target-cell red tc-left tc-right">0.069</td>
+                      <td>21.6</td>
+                      <td>144.7</td>
+                    </tr>
+                    <tr>
+                      <td rowspan="2" class="text-left model-name">Gemma3-4B-Instruct</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>59.8</td>
+                      <td>40.2</td>
+                      <td class="cell-highlight-red target-cell red tc-left tc-right">0.000</td>
+                      <td>22.5</td>
+                      <td>72.3</td>
+                      <td rowspan="2"><strong>97.9</strong></td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td>74.8</td>
+                      <td>60.1</td>
+                      <td>38.8</td>
+                      <td class="cell-highlight-red target-cell red tc-bottom tc-left tc-right">0.010</td>
+                      <td>18.9</td>
+                      <td>71.9</td>
+                    </tr>
+                    <tr>
+                      <td rowspan="2" class="text-left model-name">Qwen3-VL-4B-Instruct</td>
+                      <td class="setting-name text-left">Direct</td>
+                      <td>&mdash;</td>
+                      <td>60.8</td>
+                      <td>32.6</td>
+                      <td>0.111</td>
+                      <td>20.3</td>
+                      <td>87.3</td>
+                      <td rowspan="2">64.6</td>
+                    </tr>
+                    <tr>
+                      <td class="setting-name text-left">Decomposed</td>
+                      <td>70.4</td>
+                      <td>61.4</td>
+                      <td>22.8</td>
+                      <td>0.172</td>
+                      <td>13.2</td>
+                      <td>97.6</td>
+                    </tr>
+                  </tbody>
+
+                  <tbody class="model-cluster" data-model="grpo">
+                    <tr style="background: #f0fdf4;">
+                      <td rowspan="2" class="text-left model-name" style="color: #15803d;">&rdsh; with GRPO (ours)</td>
+                      <td class="setting-name text-left target-cell green tc-top tc-left">Direct</td>
+                      <td class="target-cell green tc-top">&mdash;</td>
+                      <td class="target-cell green tc-top">61.5</td>
+                      <td class="target-cell green tc-top">32.9</td>
+                      <td class="target-cell green tc-top">0.130</td>
+                      <td class="target-cell green tc-top">17.2</td>
+                      <td class="target-cell green tc-top">83.8</td>
+                      <td rowspan="2" class="target-cell green tc-top tc-bottom tc-right">62.3</td>
+                    </tr>
+                    <tr style="background: #f0fdf4;">
+                      <td class="setting-name text-left target-cell green tc-bottom tc-left">Decomposed</td>
+                      <td class="target-cell green tc-bottom"><strong>75.3</strong></td>
+                      <td class="target-cell green tc-bottom"><strong>69.2</strong></td>
+                      <td class="target-cell green tc-bottom">14.1</td>
+                      <td class="target-cell green tc-bottom"><strong>0.364</strong></td>
+                      <td class="target-cell green tc-bottom"><strong>9.7</strong></td>
+                      <td class="target-cell green tc-bottom"><strong>98.2</strong></td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+
+
+
+              <div id="cluster-insight-panel" class="cluster-insight-panel">
+                <div class="cluster-insight-icon">
+                  <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="cluster-insight-content">
+                  <h4>Insight Title</h4>
+                  <p>Insight text goes here.</p>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- 3. GRPO Post-Training -->
+          <div id="exp-grpo" class="exp-pane">
+            <div class="box">
+              <div class="is-flex is-justify-content-space-between is-align-items-center mb-4"
+                style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                <h3 class="title is-4 mb-0"><i class="fas fa-brain" style="color: #10b981;"></i> Improving VLMs via
+                  Geometric Rewards</h3>
+                <div class="tabs is-toggle is-small is-rounded mb-0" id="grpo-subtabs">
+                  <ul>
+                    <li class="is-active" data-target="grpo-method">
+                      <a style="padding: 0.5rem 1rem; font-weight: 600;">
+                        <span class="icon is-small"><i class="fas fa-project-diagram"></i></span>
+                        <span>Methodology</span>
+                      </a>
+                    </li>
+                    <li data-target="grpo-reward">
+                      <a style="padding: 0.5rem 1rem; font-weight: 600;">
+                        <span class="icon is-small"><i class="fas fa-star"></i></span>
+                        <span>Reward & Reasoning</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Methodology Sub-tab -->
+              <div id="grpo-method" class="grpo-subpane">
+                <p class="mb-4 text-slate-600" style="font-size: 0.95rem; line-height: 1.6;">
+                  Supervised Fine-Tuning (SFT) for spatial reasoning is often prone to superficial alignment and
+                  catastrophic forgetting. Instead, we formulate spatial alignment as a reinforcement learning problem
+                  using Group Relative Policy Optimization (GRPO). By using <strong>SceneTeract's deterministic
+                    grounding engine as a scalable, automated reward signal</strong>, we can distill geometric
+                  constraints directly into the reasoning paths of a Vision-Language Model.
+                </p>
+                <div class="columns is-desktop mt-4">
+                  <div class="column is-6">
+                    <h4 class="title is-6 mb-3 text-slate-700 border-b pb-2">Group Advantage Formulation</h4>
+                    <p class="mb-3 text-slate-600" style="font-size: 0.9rem; line-height: 1.6;">
+                      For a given atomic action step, the VLM is prompted to sample a group of \( G \) independent
+                      <strong>Chain-of-Thought (CoT)</strong> reasoning paths, each concluding with a predicted action
+                      feasibility judgment \( \hat{v}_i \). SceneTeract assigns a sparse reward to each completion by
+                      directly comparing it against the grounded verifier label \( v \):
+                    </p>
+                    <div
+                      style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center; margin-bottom: 1rem; font-size: 1.1rem; color: #1e293b;">
+                      \( r_i = \mathbb{1}[\hat{v}_i = v] \)
+                    </div>
+                    <p class="mb-3 text-slate-600" style="font-size: 0.9rem; line-height: 1.6;">
+                      The model policy is then updated by maximizing the group-relative advantage:
+                    </p>
+                    <div
+                      style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center; font-size: 1.1rem; color: #1e293b;">
+                      \( A_i = \frac{r_i - \mu_r}{\sigma_r + \epsilon} \)
+                    </div>
+                    <p class="mt-3 text-slate-500" style="font-size: 0.85rem; font-style: italic;">
+                      where \( \mu_r \) and \( \sigma_r \) are the mean and standard deviation of the rewards within the
+                      sampled group.
+                    </p>
+                  </div>
+                  <div class="column is-6">
+                    <div class="applications-card" style="height: 100%;">
+                      <div class="insight-header" style="background: #10b981;">
+                        <i class="fas fa-lightbulb"></i> Why this works
+                      </div>
+                      <div class="applications-body"
+                        style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+                        <div class="grpo-tree"
+                          style="margin-bottom: 1.5rem; width: 100%; display: flex; flex-direction: column; align-items: center; font-family: 'Inter', sans-serif;">
+                          <!-- Root -->
+                          <div
+                            style="background: #1e293b; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 2; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-robot text-slate-400"></i> "Can the agent sit on the couch?"
+                          </div>
+
+                          <!-- Connecting Lines -->
+                          <div style="position: relative; width: 100%; height: 10px;">
+                            <!-- Vertical line from root -->
+                            <div
+                              style="position: absolute; top: 0; left: 50%; width: 2px; height: 10px; background: #cbd5e1; transform: translateX(-50%);">
+                            </div>
+                            <!-- Horizontal line: spans from center of first leaf to center of last leaf (8.33% to 91.66%) -->
+                            <div
+                              style="position: absolute; bottom: 0; left: 8.33%; right: 8.33%; height: 2px; background: #cbd5e1;">
+                            </div>
+                          </div>
+
+                          <!-- Leaves Container -->
+                          <div style="display: flex; width: 100%;">
+
+                            <!-- Leaf 1 (Wrong) -->
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 10px; background: #cbd5e1;"></div>
+                              <div
+                                style="background: #fef2f2; border: 1px solid #fecaca; padding: 0.3rem 0.5rem; border-radius: 6px; text-align: center; min-width: 45px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                                <div style="color: #ef4444; font-weight: 700; font-size: 0.8rem;">Yes</div>
+                                <div
+                                  style="color: #64748b; font-size: 0.7rem; font-family: 'Fira Code', monospace; margin-top: 4px; background: white; padding: 1px 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                  A <span style="color: #ef4444; font-weight: bold;">&lt; 0</span></div>
+                              </div>
+                            </div>
+
+                            <!-- Leaf 2 (Right) -->
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 10px; background: #cbd5e1;"></div>
+                              <div
+                                style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.3rem 0.5rem; border-radius: 6px; text-align: center; min-width: 45px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                                <div style="color: #10b981; font-weight: 700; font-size: 0.8rem;">No</div>
+                                <div
+                                  style="color: #64748b; font-size: 0.7rem; font-family: 'Fira Code', monospace; margin-top: 4px; background: white; padding: 1px 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                  A <span style="color: #10b981; font-weight: bold;">&gt; 0</span></div>
+                              </div>
+                            </div>
+
+                            <!-- Leaf 3 (Wrong) -->
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 10px; background: #cbd5e1;"></div>
+                              <div
+                                style="background: #fef2f2; border: 1px solid #fecaca; padding: 0.3rem 0.5rem; border-radius: 6px; text-align: center; min-width: 45px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                                <div style="color: #ef4444; font-weight: 700; font-size: 0.8rem;">Yes</div>
+                                <div
+                                  style="color: #64748b; font-size: 0.7rem; font-family: 'Fira Code', monospace; margin-top: 4px; background: white; padding: 1px 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                  A <span style="color: #ef4444; font-weight: bold;">&lt; 0</span></div>
+                              </div>
+                            </div>
+
+                            <!-- Leaf 4 (Right) -->
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 10px; background: #cbd5e1;"></div>
+                              <div
+                                style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.3rem 0.5rem; border-radius: 6px; text-align: center; min-width: 45px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                                <div style="color: #10b981; font-weight: 700; font-size: 0.8rem;">No</div>
+                                <div
+                                  style="color: #64748b; font-size: 0.7rem; font-family: 'Fira Code', monospace; margin-top: 4px; background: white; padding: 1px 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                  A <span style="color: #10b981; font-weight: bold;">&gt; 0</span></div>
+                              </div>
+                            </div>
+
+                            <!-- Leaf 5 (Right) -->
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 10px; background: #cbd5e1;"></div>
+                              <div
+                                style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.3rem 0.5rem; border-radius: 6px; text-align: center; min-width: 45px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                                <div style="color: #10b981; font-weight: 700; font-size: 0.8rem;">No</div>
+                                <div
+                                  style="color: #64748b; font-size: 0.7rem; font-family: 'Fira Code', monospace; margin-top: 4px; background: white; padding: 1px 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                  A <span style="color: #10b981; font-weight: bold;">&gt; 0</span></div>
+                              </div>
+                            </div>
+
+                            <!-- Leaf 6 (Wrong) -->
+                            <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                              <div style="width: 2px; height: 10px; background: #cbd5e1;"></div>
+                              <div
+                                style="background: #fef2f2; border: 1px solid #fecaca; padding: 0.3rem 0.5rem; border-radius: 6px; text-align: center; min-width: 45px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                                <div style="color: #ef4444; font-weight: 700; font-size: 0.8rem;">Yes</div>
+                                <div
+                                  style="color: #64748b; font-size: 0.7rem; font-family: 'Fira Code', monospace; margin-top: 4px; background: white; padding: 1px 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                  A <span style="color: #ef4444; font-weight: bold;">&lt; 0</span></div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <p class="text-slate-600 text-center"
+                          style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 0;">
+                          By <strong>contrasting successful reasoning paths against failed ones</strong> for the
+                          <em>exact same query</em>, the model internalizes true notions of 3D functional awareness
+                          instead of superficially memorizing spatial layouts.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reward & Reasoning Sub-tab -->
+              <div id="grpo-reward" class="grpo-subpane" style="display: none;">
+                <p class="mb-4 text-slate-600" style="font-size: 0.95rem; line-height: 1.6;">
+                  We design a composite reward function to guide the VLM towards accurate, physically-grounded
+                  predictions. Below we detail the reward components and present a learned reasoning trace that
+                  highlights the model's acquired spatial intuition.
+                </p>
+                <div class="columns is-desktop mt-4">
+                  <!-- Reward Formulation -->
+                  <div class="column is-5">
+                    <h4 class="title is-6 mb-3 text-slate-700 border-b pb-2">Reward Formulation</h4>
+                    <div class="flex flex-col">
+                      <div
+                        style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #94a3b8; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div
+                          style="font-weight: 700; color: #334155; font-size: 0.95rem; display: flex; justify-content: space-between;">
+                          <span>Format Reward</span>
+                          <span style="color: #10b981;">+0.5</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4;">
+                          Enforces strictly structured Chain-of-Thought reasoning. The model must encapsulate its logic
+                          within <code>&lt;think&gt;...&lt;/think&gt;</code> and its final boolean verdict within
+                          <code>&lt;answer&gt;...&lt;/answer&gt;</code> tags.
+                        </p>
+                      </div>
+
+                      <div
+                        style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div
+                          style="font-weight: 700; color: #334155; font-size: 0.95rem; display: flex; justify-content: space-between;">
+                          <span>Asymmetric Correctness</span>
+                          <span style="color: #3b82f6;">+2.0 / +3.0</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4;">
+                          Matches the model's final prediction against the SceneTeract geometric verifier. To counter
+                          dataset class imbalances, a correct <code>False</code> prediction (identifying a physical
+                          failure) yields a higher reward than a correct <code>True</code> prediction.
+                        </p>
+                      </div>
+
+                      <div
+                        style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 8px;">
+                        <div
+                          style="font-weight: 700; color: #334155; font-size: 0.95rem; display: flex; justify-content: space-between;">
+                          <span>Spatial Reasoning</span>
+                          <span style="color: #8b5cf6;">+1.0</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4;">
+                          A targeted dense reward triggered if the model's reasoning trace explicitly mentions keywords
+                          tied to the specific physical failure identified by the engine (e.g., <em>"reach", "too far",
+                            "clearance", "narrow"</em>).
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Reasoning Trace Example -->
+                  <div class="column is-7">
+                    <h4 class="title is-6 mb-3 text-slate-700 border-b pb-2">Learned Reasoning Trace</h4>
+                    <div
+                      style="background: #0f172a; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                      <div
+                        style="background: #1e293b; padding: 0.75rem 1rem; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></div>
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #eab308;"></div>
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></div>
+                        <span
+                          style="margin-left: 10px; color: #94a3b8; font-family: 'Fira Code', monospace; font-size: 0.75rem;">Qwen3-VL-4B
+                          (GRPO Checkpoint)</span>
+                      </div>
+
+                      <div
+                        style="padding: 1.5rem; color: #cbd5e1; font-family: 'Fira Code', monospace; font-size: 0.75rem; line-height: 1.6;">
+                        <div style="color: #64748b; margin-bottom: 1rem;">
+                          <span style="color: #38bdf8;">Agent:</span> Wheelchair User<br>
+                          <span style="color: #38bdf8;">Goal:</span> sit_on the dining_chair
+                        </div>
+
+                        <div style="color: #a78bfa;">&lt;think&gt;</div>
+                        <div
+                          style="padding-left: 1rem; margin: 0.5rem 0; border-left: 2px solid #334155; color: #cbd5e1;">
+                          The agent is seated in a manual wheelchair. To sit on the dining chair, the agent must first
+                          navigate to it, which requires a clear path and sufficient space for the wheelchair to
+                          approach and stop. The dining chair is positioned at the head of the dining table on the right
+                          side of the room.<br><br>
+                          There are no objects obstructing the direct path to it. However, the chair is located in a
+                          corner or tight space next to the table, and there is a dining table with multiple chairs
+                          surrounding it, which may reduce clearance. <strong
+                            style="color: #fbbf24; font-weight: normal; background: rgba(251,191,36,0.1); padding: 0 4px; border-radius: 4px;">The
+                            wheelchair's width (typically around 60-70 cm) must fit into the space around the chair,
+                            which appears to be tight with no apparent clearance or buffer space.</strong><br><br>
+                          Additionally, the red bounding box indicates the chair is selected, but visually, the space
+                          around it seems too narrow to allow the wheelchair to maneuver in and sit without hitting
+                          adjacent furniture. Hence, the agent cannot successfully perform the action "sit_on" on the
+                          "dining_chair" due to insufficient clearance and navigational constraints.
+                        </div>
+                        <div style="color: #a78bfa;">&lt;/think&gt;</div>
+
+                        <div style="margin-top: 0.5rem;">
+                          <span style="color: #10b981;">&lt;answer&gt;</span><span
+                            style="color: #f87171; font-weight: bold;">False</span><span
+                            style="color: #10b981;">&lt;/answer&gt;</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #64748b; margin-top: 1rem; font-style: italic;">
+                      <strong>Observation:</strong> Even though specific numerical dimensions were not provided in the
+                      prompt, the model independently derives a sensible clearance width for a wheelchair (~65cm),
+                      matching the parameters used in the SceneTeract verification engine.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Experiments Section -->
+    <!-- Interactive 3D Viewer -->
+    <section class="hero teaser">
+      <div class="container is-max-widescreen">
+        <div class="hero-body">
+          <h2 class="title is-3 has-text-centered">Interactive 3D Verification</h2>
+          <p class="has-text-centered mb-4">Experience how SceneTeract decomposes and grounds the activity within the 3D
+            scene. Click <b>Play Trace</b> to visualize the step-by-step verification.</p>
+
+          <div
+            style="position: relative; width: 100%; height: 80vh; max-height: 800px; border: 1px solid #333; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <iframe src="viewer/dist/index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- End Interactive 3D Viewer -->
+
+
+    <!--BibTex citation -->
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@article{maillard2026sceneteract,
+  title={SceneTeract: Agentic Functional Affordances and VLM Grounding in 3D Scenes},
+  author={Maillard, L{\'e}opold and Engelmann, Francis and Durand, Tom and Pan, Boxiao and You, Yang and Litany, Or and Guibas, Leonidas and Ovsjanikov, Maks},
+  year={2026},
+  url={https://sceneteract.github.io}
+}</code></pre>
+      </div>
+    </section>
+    <!--End BibTex citation -->
+
+
+    <footer class="footer">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="content">
+
+              <p>
+                3D scenes and assets are sourced from the
+                <a href="https://tianchi.aliyun.com/dataset/65347"
+                  target="_blank">3D-FRONT</a> and
+                <a href="https://tianchi.aliyun.com/dataset/98063" target="_blank">3D-FUTURE</a>
+                datasets,
+                licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA
+                  4.0</a>.
+                This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                  target="_blank">Academic Project Page Template</a> which was adopted from the <a
+                  href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.<br> This website is
+                licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+                  target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+</body>
+
+</html>

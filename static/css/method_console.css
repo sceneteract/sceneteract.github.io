@@ -1,0 +1,1289 @@
+/* Two-Pane Explorer Layout */
+.method-console-wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 600px;
+  gap: 2rem;
+  margin: 40px 0;
+  text-align: left;
+}
+
+/* Left Pane: Navigator */
+.console-nav {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-item {
+  padding: 1.2rem 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+}
+
+.nav-item.active {
+  background: #f8fafc;
+  border-color: #2563eb;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #2563eb;
+}
+
+.nav-number {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 0.3rem;
+}
+
+.nav-item.active .nav-number {
+  color: #2563eb;
+}
+
+.nav-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.nav-desc {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* Right Pane: The Stage */
+.console-stage {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-content {
+  position: absolute;
+  inset: 0;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(10px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.stage-content.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  position: relative; /* Takes up layout space when active */
+}
+
+.stage-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stage-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stage-header p {
+  color: #64748b;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Specific Stage Layouts */
+
+/* Stage 1: Bento Box */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1.5rem;
+  flex-grow: 1;
+}
+
+.bento-box {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.bento-header {
+  background: rgba(234, 245, 247, 0.8);
+  color: #0f172a;
+  padding: 1rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(0, 112, 192, 0.1);
+}
+
+.bento-header i {
+  color: #0070C0;
+  font-size: 1.1rem;
+}
+
+.bento-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.code-block {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 0.7rem !important;
+  line-height: 1.5 !important;
+  overflow-x: auto !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+.code-block code {
+  font-size: inherit !important;
+  color: inherit !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.task-bubble {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 1rem;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #1e40af;
+  margin-top: auto;
+}
+
+.bento-box.scene-view img, .bento-box.agent-view img {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin: auto;
+}
+
+/* Stage 2: Planner */
+.planner-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.system-prompt {
+  background: #0f172a;
+  border-left: 4px solid #8b5cf6;
+  padding: 1.5rem;
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+}
+
+.system-prompt .highlight {
+  color: #a78bfa;
+  font-weight: 700;
+}
+
+.action-library-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* Hide anything outside the view */
+}
+
+.action-library {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: nowrap;
+  transition: transform 0.4s ease-in-out; /* Smooth sliding */
+  width: max-content; /* Let it be as wide as its children */
+}
+
+.library-family {
+  flex: 0 0 250px; /* Exact fixed width */
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Scroll hint styling */
+.scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.library-family h5 {
+  margin-bottom: 1rem;
+  color: #0f172a;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.action-tag {
+  display: inline-block;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+  margin: 0 0.5rem 0.5rem 0;
+}
+
+/* Stage 3: Matrix */
+.matrix-container {
+  overflow-x: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  height: 100%;
+}
+
+.matrix-table th, .matrix-table td {
+  padding: 1.2rem 1rem;
+  border: 1px solid #e2e8f0;
+  text-align: center !important; /* Force center all columns */
+  font-size: 1rem;
+}
+
+/* Override for the first column (Action Family names) */
+.matrix-table th:first-child,
+.matrix-table td:first-child {
+  text-align: left !important;
+  padding-left: 1.5rem;
+}
+
+.matrix-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.matrix-table td.action-name {
+  font-weight: 600;
+  background: #f8fafc;
+  color: #334155;
+}
+
+.check-yes { color: #10b981; font-weight: bold; }
+.check-no { color: #cbd5e1; }
+
+/* Stage 4: Report */
+.report-split {
+  display: flex;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.report-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.report-panel h4 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.diagnostic-text {
+  background: #fef2f2;
+  border-left: 4px solid #ef4444;
+  padding: 1.5rem;
+  border-radius: 8px;
+  color: #991b1b;
+  margin-top: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .method-console-wrapper {
+    flex-direction: column;
+  }
+  .console-nav {
+    flex: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  .nav-item {
+    min-width: 250px;
+  }
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-split {
+    flex-direction: column;
+  }
+}
+.step-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #10b981;
+  color: #10b981;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+
+/* Carousel Controls */
+.library-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.carousel-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  position: absolute;
+  z-index: 10;
+  color: #475569;
+}
+
+.carousel-btn:hover {
+  background: #f8fafc;
+  color: #1e293b;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: scale(1.05);
+}
+
+.carousel-btn.prev-btn {
+  left: -18px;
+}
+
+.carousel-btn.next-btn {
+  right: -18px;
+}
+
+.action-library {
+  scroll-behavior: smooth;
+}
+
+
+/* Generated Plan Sequence */
+.plan-sequence {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.plan-step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #ffffff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.plan-step-num {
+  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  min-width: 20px;
+}
+
+.plan-step-action {
+  font-family: 'Fira Code', monospace;
+  font-weight: 600;
+  color: #78206E;
+}
+
+.plan-step-object {
+  font-family: 'Fira Code', monospace;
+  color: #1d4ed8;
+  background: #eff6ff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+
+/* Property Headers (Interactive) */
+.prop-header {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  box-shadow: inset 0 -2px 0 0 #cbd5e1;
+}
+
+.prop-info-icon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 0.7rem;
+  color: #94a3b8;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.prop-header:hover {
+  background: #ffffff;
+  color: #2563eb;
+  box-shadow: inset 0 -2px 0 0 #93c5fd;
+}
+
+.prop-header:hover .prop-info-icon {
+  color: #2563eb;
+  opacity: 1;
+}
+
+.prop-header.active {
+  background: #eff6ff;
+  color: #1e40af;
+  box-shadow: inset 0 -3px 0 0 #2563eb;
+}
+
+.prop-header.active .prop-info-icon {
+  color: #2563eb;
+  opacity: 1;
+}
+
+.prop-header img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-bottom: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prop-header span {
+  display: block;
+}
+
+/* Property Details Panel */
+.property-details-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-grow: 1; /* Stretch to fill remaining space */
+}
+
+.prop-detail {
+  display: none;
+  width: 100%;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.prop-detail.active {
+  display: block;
+}
+
+.prop-empty-state {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+}
+
+.prop-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.8rem;
+}
+
+.prop-title img {
+  width: 32px;
+  height: 32px;
+}
+
+.prop-title code {
+  font-size: 1rem;
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  padding: 0.2rem 0.6rem !important;
+  border-radius: 6px;
+}
+
+.prop-detail p {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Split View inside Property Details */
+.prop-split-view {
+  display: flex;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.prop-text-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.prop-visual-content {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Nav Step Tabs */
+.nav-carousel-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.nav-tab {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-tab:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.nav-tab.active {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+/* Dynamic Step Content */
+.nav-step-content, .nav-step-visual {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.nav-step-content.active, .nav-step-visual.active {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-carousel {
+  position: relative;
+  width: 100%;
+  height: 200px; /* Increased from 160px for better fit */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-carousel img {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.visual-carousel img.active {
+  opacity: 1;
+}
+
+.prop-visual-content .caption {
+  font-size: 0.8rem;
+  color: #64748b;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+
+/* Visual Legend */
+.visual-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: #64748b;
+  font-family: 'Inter', sans-serif;
+}
+
+.legend-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* Specific Multi-color dot for Candidate Zones */
+.legend-color-multi {
+  width: 16px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.legend-color-multi span {
+  flex: 1;
+  height: 100%;
+}
+
+
+.current-visual-caption {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  background: rgba(241, 245, 249, 0.5);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+
+/* Stage 4: Report Hierarchy */
+.report-split-view {
+  display: flex;
+  gap: 2rem;
+  align-items: stretch;
+  height: 100%;
+}
+
+.report-trace-panel {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.report-insight-panel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.report-global-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.report-global-status .status-label {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-badge.fail { background: #ef4444; color: white; }
+.status-badge.pass { background: #10b981; color: white; }
+
+.trace-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.trace-step {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.trace-step.fail { border-color: #fca5a5; }
+.trace-step.pass { border-color: #a7f3d0; }
+.trace-step.skipped { border-color: #e2e8f0; opacity: 0.7; }
+
+.trace-header {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: background 0.2s;
+}
+
+.trace-step.fail .trace-header { background: #fef2f2; }
+.trace-step.pass .trace-header { background: #f0fdf4; }
+
+.trace-header:hover { filter: brightness(0.96); }
+
+.step-num { font-weight: 700; color: #64748b; font-size: 0.9rem; margin-right: 1rem; }
+.step-action { flex-grow: 1; font-family: 'Fira Code', monospace; color: #1e293b; font-size: 0.95rem; font-weight: 600; }
+.step-status { font-weight: 700; font-size: 0.85rem; margin-right: 1rem; }
+
+.trace-step.fail .step-status { color: #ef4444; }
+.trace-step.pass .step-status { color: #10b981; }
+.trace-step.skipped .step-status { color: #94a3b8; }
+
+.expand-icon { color: #94a3b8; transition: transform 0.3s; }
+.trace-step.active .expand-icon { transform: rotate(180deg); }
+
+.trace-details {
+  display: none;
+  padding: 1rem 1.2rem;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.trace-step.fail .trace-details { border-top-color: #fca5a5; }
+
+.prop-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+.prop-check:last-child { margin-bottom: 0; }
+
+.prop-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.tiny-icon { width: 16px; height: 16px; object-fit: contain; }
+
+.prop-msg {
+  flex-grow: 1;
+  color: #475569;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+}
+
+.prop-check.fail .prop-msg { color: #ef4444 !important; font-weight: 600 !important; }
+.prop-check.pass .prop-msg { color: #10b981 !important; }
+.prop-check.skipped .prop-msg { color: #94a3b8; font-style: italic; }
+
+/* Insight Card */
+.insight-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  height: 100%;
+}
+
+.insight-header {
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.insight-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.insight-body p { margin: 0; }
+
+.insight-footer {
+  padding: 0.8rem 1.5rem;
+  background: #f1f5f9;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-style: italic;
+  border-top: 1px solid #e2e8f0;
+}
+
+
+/* Fixes for Stage 4 */
+
+/* Remove default code styling that was adding gray background */
+.step-action {
+  background: transparent !important;
+  padding: 0 !important;
+  color: #1e293b !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure prop checks are left-aligned */
+.prop-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.prop-msg {
+  text-align: left;
+}
+
+/* Prevent Insight Card from stretching with accordion */
+.report-split-view {
+  align-items: flex-start !important; /* Changed from stretch to flex-start */
+}
+
+.insight-card-wrapper {
+  position: sticky;
+  top: 0;
+}
+
+
+.trace-step.fail.active .trace-header { background: #fef2f2; border-bottom: 1px solid #fca5a5; }
+.trace-step.pass.active .trace-header { background: #f0fdf4; border-bottom: 1px solid #a7f3d0; }
+
+/* Fix expand icon rotation logic so it matches default state */
+.trace-step .expand-icon { transform: rotate(0deg); }
+.trace-step.active .expand-icon { transform: rotate(180deg); }
+
+/* Left-align properties text perfectly */
+.prop-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  text-align: left !important;
+}
+
+.prop-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100px;
+  min-width: 100px; /* Prevent shrinking */
+  font-weight: 600;
+  color: #334155;
+  text-align: left !important;
+}
+
+.prop-msg {
+  flex-grow: 1;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  text-align: left !important;
+}
+
+
+/* Force Left Alignment for Diagnostic Trace Details */
+.trace-details {
+  text-align: left !important;
+}
+
+.prop-check {
+  justify-content: flex-start !important;
+}
+
+.prop-name {
+  justify-content: flex-start !important;
+}
+
+
+/* Diagnostic Trace Alignment Fixes */
+.trace-details {
+  padding: 1rem 1.5rem !important;
+  display: none;
+  background: #ffffff;
+  text-align: left !important;
+}
+
+.trace-step.active .trace-details {
+  display: block;
+}
+
+.prop-check {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 0.8rem !important; /* Reduced from 1.5rem */
+  margin-bottom: 0.8rem !important;
+  width: 100% !important;
+}
+
+.prop-name {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: 65px !important; /* Reduced from 120px */
+  min-width: 65px !important; /* Reduced from 120px */
+  flex-shrink: 0 !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.prop-msg {
+  flex-grow: 1 !important;
+  text-align: left !important;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 0.85rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Fix Chevron Rotation */
+.expand-icon {
+  transition: transform 0.3s ease !important;
+  transform: rotate(0deg) !important;
+}
+
+.trace-step.active .expand-icon {
+  transform: rotate(180deg) !important;
+}
+
+/* Final alignment and icon fixes */
+.trace-header i.expand-icon {
+  margin-left: auto !important; /* Push chevron to the right */
+  width: 20px !important;
+  text-align: center !important;
+}
+
+.trace-details {
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+.trace-step.fail .trace-details {
+  border-top-color: #fca5a5 !important;
+}
+
+.prop-check {
+  margin-bottom: 1rem !important;
+}
+
+.prop-msg {
+  white-space: normal !important; /* Ensure wrapping works for long messages */
+}
+
+
+.trace-header code.step-action {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-size: 0.95rem !important;
+}
+
+
+/* Specific Nav Item Themes */
+
+/* 1. Inputs (Blue) */
+.nav-item.nav-inputs.active {
+  background: rgba(234, 245, 247, 0.6) !important;
+  border-color: #0070C0 !important;
+  box-shadow: 0 4px 15px rgba(0, 112, 192, 0.15) !important;
+}
+.nav-item.nav-inputs.active::before { background: #0070C0 !important; }
+.nav-item.nav-inputs.active .nav-number, 
+.nav-item.nav-inputs.active .nav-title { color: #0070C0 !important; }
+
+/* 2. Planning (Purple) */
+.nav-item.nav-planning.active {
+  background: rgba(255, 242, 254, 0.6) !important;
+  border-color: #78206E !important;
+  box-shadow: 0 4px 15px rgba(120, 32, 110, 0.15) !important;
+}
+.nav-item.nav-planning.active::before { background: #78206E !important; }
+.nav-item.nav-planning.active .nav-number, 
+.nav-item.nav-planning.active .nav-title { color: #78206E !important; }
+
+/* 3. Grounding (Green) */
+.nav-item.nav-grounding.active {
+  background: rgba(233, 248, 228, 0.6) !important;
+  border-color: #3B7D23 !important;
+  box-shadow: 0 4px 15px rgba(59, 125, 35, 0.15) !important;
+}
+.nav-item.nav-grounding.active::before { background: #3B7D23 !important; }
+.nav-item.nav-grounding.active .nav-number, 
+.nav-item.nav-grounding.active .nav-title { color: #3B7D23 !important; }
+
+/* 4. Reporting (Gray) */
+.nav-item.nav-reporting.active {
+  background: rgba(232, 232, 232, 0.6) !important;
+  border-color: #595959 !important;
+  box-shadow: 0 4px 15px rgba(89, 89, 89, 0.15) !important;
+}
+.nav-item.nav-reporting.active::before { background: #595959 !important; }
+.nav-item.nav-reporting.active .nav-number, 
+.nav-item.nav-reporting.active .nav-title { color: #595959 !important; }
+
+/* Stage 4: Applications Card */
+.report-applications-panel {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.applications-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.applications-body {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.app-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.app-title {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-desc {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .applications-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Next Stage Buttons */
+.next-stage-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.next-stage-teaser {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.next-stage-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.next-stage-btn:hover {
+  transform: translateX(4px) scale(1.05);
+}
+
+/* To Stage 2: Planning (Purple Theme) */
+.next-stage-btn.to-stage-2 {
+  background: rgba(255, 242, 254, 0.8);
+  color: #78206E;
+  border-color: rgba(120, 32, 110, 0.2);
+}
+.next-stage-btn.to-stage-2:hover {
+  background: #78206E;
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(120, 32, 110, 0.25);
+  border-color: #78206E;
+}
+
+/* To Stage 3: Grounding (Green Theme) */
+.next-stage-btn.to-stage-3 {
+  background: rgba(233, 248, 228, 0.8);
+  color: #3B7D23;
+  border-color: rgba(59, 125, 35, 0.2);
+}
+.next-stage-btn.to-stage-3:hover {
+  background: #3B7D23;
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(59, 125, 35, 0.25);
+  border-color: #3B7D23;
+}
+
+/* To Stage 4: Reporting (Gray Theme) */
+.next-stage-btn.to-stage-4 {
+  background: rgba(232, 232, 232, 0.8);
+  color: #595959;
+  border-color: rgba(89, 89, 89, 0.2);
+}
+.next-stage-btn.to-stage-4:hover {
+  background: #595959;
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(89, 89, 89, 0.25);
+  border-color: #595959;
+}
