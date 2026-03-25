@@ -755,8 +755,14 @@ pre code {
   
   .more-works-container {
     bottom: 2rem;
-    right: 1rem;
+    left: 1rem;
+    right: auto;
     top: auto;
+  }
+  
+  .scroll-to-top {
+    bottom: 2rem;
+    right: 1rem;
   }
   
   .more-works-btn {
@@ -766,7 +772,8 @@ pre code {
   
   .more-works-dropdown {
     width: calc(100vw - 2rem);
-    right: -1rem;
+    left: 0;
+    right: auto;
     bottom: calc(100% + 0.5rem);
     top: auto;
   }
@@ -797,7 +804,8 @@ pre code {
   .more-works-container {
     position: fixed;
     bottom: 2rem;
-    right: 1rem;
+    left: 1rem;
+    right: auto;
     z-index: 1000;
   }
   
@@ -809,7 +817,8 @@ pre code {
   .more-works-dropdown {
     position: absolute;
     bottom: calc(100% + 0.5rem);
-    right: 0;
+    left: 0;
+    right: auto;
     width: calc(100vw - 2rem);
     max-width: 90vw;
   }
