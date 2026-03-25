@@ -400,7 +400,7 @@ function App() {
   const hasResults = steps.length > 0 || error || isGenerating;
 
   return (
-    <div className="flex w-full h-screen overflow-hidden">
+    <div className="flex flex-col md:flex-row w-full h-screen overflow-hidden bg-slate-950">
       <ControlPanel 
         onPlanGenerate={handlePlanGenerate} 
         onSceneSelect={setSelectedSceneId}

@@ -383,41 +383,43 @@ export default function DemoApp() {
   const agentIcon = AGENT_ICONS[agent_id] || AGENT_ICONS['adult'];
 
   return (
-    <div className="flex w-full h-screen overflow-hidden text-white font-sans text-left">
-      <div className="w-80 h-full bg-slate-900 p-4 flex flex-col gap-6 shadow-xl z-10 overflow-y-auto">
-        <div>
-          <h1 className="text-2xl font-black bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent tracking-tighter leading-none mb-2">
+    <div className="flex flex-col md:flex-row w-full h-screen overflow-hidden text-white font-sans text-left bg-slate-950">
+      <div className="w-full md:w-80 h-auto md:h-full bg-slate-900 p-4 flex flex-row md:flex-col gap-4 md:gap-6 shadow-xl z-10 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto shrink-0 border-b md:border-b-0 md:border-r border-slate-800 items-center md:items-stretch">
+        <div className="shrink-0 md:shrink">
+          <h1 className="text-lg md:text-2xl font-black bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent tracking-tighter leading-none mb-1 md:mb-2">
             SceneTeract Demo
           </h1>
-          <div className="text-sm text-slate-300">
+          <div className="hidden md:block text-sm text-slate-300">
             <strong>Task:</strong> {task}
           </div>
-          <div className="flex items-center gap-3 mt-3 bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
-            <img src={agentIcon} alt={agent_id} className="w-10 h-14 object-contain bg-slate-800 rounded p-1" />
-            <div className="text-xs text-slate-300 flex flex-col justify-center">
-              <span><strong>Agent:</strong> {agent_id.replace('_', ' ')}</span>
-              <span><strong>Scene:</strong> {displaySceneId}</span>
+          <div className="flex items-center gap-2 md:gap-3 mt-0 md:mt-3 bg-slate-800/50 p-1.5 md:p-2 rounded-lg border border-slate-700/50 min-w-[140px] md:min-w-0">
+            <img src={agentIcon} alt={agent_id} className="w-6 h-8 md:w-10 md:h-14 object-contain bg-slate-800 rounded p-0.5 md:p-1" />
+            <div className="text-[10px] md:text-xs text-slate-300 flex flex-col justify-center">
+              <span className="truncate max-w-[80px] md:max-w-none"><strong>Agent:</strong> {agent_id.replace('_', ' ')}</span>
+              <span className="hidden md:inline"><strong>Scene:</strong> {displaySceneId}</span>
             </div>
           </div>
         </div>
 
-        <div className="flex gap-2 mb-2">
-          <button 
-            onClick={() => setIsPlaying(!isPlaying)}
-            className={`flex-1 py-2 rounded flex items-center justify-center gap-2 font-bold transition-colors ${isPlaying ? 'bg-orange-600 hover:bg-orange-500' : 'bg-green-600 hover:bg-green-500'}`}
-          >
-            {isPlaying ? <><Pause className="w-4 h-4"/> Pause</> : <><Play className="w-4 h-4"/> Play Trace</>}
-          </button>
-          <button 
-            onClick={resetSimulation}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded flex items-center justify-center transition-colors"
-            title="Reset Trace"
-          >
-            <RotateCcw className="w-4 h-4"/>
-          </button>
+        <div className="flex flex-row md:flex-col gap-2 flex-grow md:flex-grow-0 items-center md:items-stretch min-w-[120px] md:min-w-0">
+          <div className="flex gap-2 w-full">
+            <button 
+              onClick={() => setIsPlaying(!isPlaying)}
+              className={`flex-1 py-1.5 md:py-2 px-3 md:px-4 rounded flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-colors shrink-0 ${isPlaying ? 'bg-orange-600 hover:bg-orange-500' : 'bg-green-600 hover:bg-green-500'}`}
+            >
+              {isPlaying ? <><Pause className="w-3 h-3 md:w-4 md:h-4"/> Pause</> : <><Play className="w-3 h-3 md:w-4 md:h-4"/> Play</>}
+            </button>
+            <button 
+              onClick={resetSimulation}
+              className="px-2 md:px-4 py-1.5 md:py-2 bg-slate-800 hover:bg-slate-700 rounded flex items-center justify-center transition-colors shrink-0"
+              title="Reset Trace"
+            >
+              <RotateCcw className="w-3 h-3 md:w-4 md:h-4"/>
+            </button>
+          </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="hidden md:block space-y-3">
             {steps.map((stepState, idx) => (
                 <PlanStepItem 
                     key={idx} 
@@ -430,7 +432,7 @@ export default function DemoApp() {
         </div>
         
         {insight && (
-            <div className="mt-4 p-4 bg-blue-900/20 border border-blue-800 rounded text-sm text-slate-200">
+            <div className="hidden md:block mt-4 p-4 bg-blue-900/20 border border-blue-800 rounded text-sm text-slate-200">
                 <div className="font-bold text-blue-300 mb-2 flex items-center gap-2">
                 <span className="text-lg">💡</span> Actionable Insight
                 </div>

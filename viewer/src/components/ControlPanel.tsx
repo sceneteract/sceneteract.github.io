@@ -116,75 +116,77 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onPlanGenerate, onSc
   };
 
   return (
-    <div className="w-80 h-full bg-slate-900 text-white p-4 flex flex-col gap-6 shadow-xl z-10 overflow-y-auto">
-      <div>
-        <h1 className="text-3xl font-black bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent tracking-tighter leading-none">
+    <div className="w-full md:w-80 h-auto md:h-full bg-slate-900 text-white p-4 flex flex-row md:flex-col gap-4 md:gap-6 shadow-xl z-10 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto items-center md:items-stretch shrink-0 border-b md:border-b-0 md:border-r border-slate-800">
+      <div className="shrink-0 md:shrink">
+        <h1 className="text-lg md:text-3xl font-black bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent tracking-tighter leading-none">
           SceneTeract
         </h1>
-        <p className="text-[12px] font-medium text-slate-400 mt-2 leading-snug">
+        <p className="hidden md:block text-[12px] font-medium text-slate-400 mt-2 leading-snug">
           Human-Centric Functional Affordance and VLM Grounding in 3D Scenes
         </p>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-slate-400">Scene</label>
-        <input 
-          list="scene-options"
-          className="bg-slate-800 border border-slate-700 rounded p-2 text-sm focus:border-blue-500 outline-none text-white w-full"
-          value={selectedScene}
-          onChange={(e) => {
-            const sceneId = e.target.value;
-            setSelectedScene(sceneId);
-            
-            // Only trigger full update if it's a valid existing scene
-            const scene = scenes.find(s => s.id === sceneId);
-            if (scene) {
-              onSceneSelect(sceneId);
-              setTask(scene.default_task);
-            }
-          }}
-          placeholder="Select or type a scene ID..."
-        />
-        <datalist id="scene-options">
-          {scenes.map(s => (
-            <option key={s.id} value={s.id}>{s.id.split('_')[1] || s.id}</option>
-          ))}
-        </datalist>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <label className="text-sm font-medium text-slate-400">Agent</label>
-        
-        {/* Visual Selector */}
-        <div className="grid grid-cols-3 gap-2">
-            {agents.map(a => {
-                const icon = AGENT_ICONS[a.id];
-                const isSelected = selectedAgent === a.id;
-                return (
-                    <button
-                        key={a.id}
-                        onClick={() => handleAgentSelect(a.id)}
-                        className={`
-                            flex flex-col items-center justify-center p-2 rounded-lg border transition-all
-                            ${isSelected 
-                                ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.3)]' 
-                                : 'bg-slate-800 border-slate-700 hover:bg-slate-700 hover:border-slate-600'}
-                        `}
-                        title={a.name}
-                    >
-                        {icon ? (
-                            <img src={icon} alt={a.name} className="w-10 h-14 object-contain mb-1" />
-                        ) : (
-                            <div className="w-10 h-14 bg-slate-700 rounded-md mb-1 flex items-center justify-center text-xs">?</div>
-                        )}
-                        <span className="text-[10px] font-medium truncate w-full text-center">{a.name}</span>
-                    </button>
-                );
-            })}
+      <div className="flex flex-row md:flex-col gap-4 md:gap-6 items-center md:items-stretch flex-grow md:flex-grow-0">
+        <div className="flex flex-col gap-1 md:gap-2 min-w-[140px] md:min-w-0">
+          <label className="text-[10px] md:text-sm font-medium text-slate-400 uppercase tracking-wider md:normal-case md:tracking-normal">Scene</label>
+          <input 
+            list="scene-options"
+            className="bg-slate-800 border border-slate-700 rounded p-1.5 md:p-2 text-xs md:text-sm focus:border-blue-500 outline-none text-white w-full"
+            value={selectedScene}
+            onChange={(e) => {
+              const sceneId = e.target.value;
+              setSelectedScene(sceneId);
+              
+              // Only trigger full update if it's a valid existing scene
+              const scene = scenes.find(s => s.id === sceneId);
+              if (scene) {
+                onSceneSelect(sceneId);
+                setTask(scene.default_task);
+              }
+            }}
+            placeholder="Scene ID..."
+          />
+          <datalist id="scene-options">
+            {scenes.map(s => (
+              <option key={s.id} value={s.id}>{s.id.split('_')[1] || s.id}</option>
+            ))}
+          </datalist>
         </div>
 
-        {/* Properties Dropdown */}
-        <div className="border border-slate-700 rounded-lg bg-slate-800/50 overflow-hidden">
+        <div className="flex flex-col gap-1 md:gap-3 min-w-[160px] md:min-w-0">
+          <label className="text-[10px] md:text-sm font-medium text-slate-400 uppercase tracking-wider md:normal-case md:tracking-normal">Agent</label>
+          
+          {/* Visual Selector */}
+          <div className="flex flex-row md:grid md:grid-cols-3 gap-2 overflow-x-auto md:overflow-x-visible pb-1 md:pb-0">
+              {agents.map(a => {
+                  const icon = AGENT_ICONS[a.id];
+                  const isSelected = selectedAgent === a.id;
+                  return (
+                      <button
+                          key={a.id}
+                          onClick={() => handleAgentSelect(a.id)}
+                          className={`
+                              flex flex-row md:flex-col items-center justify-center p-1.5 md:p-2 rounded-lg border transition-all shrink-0 md:shrink
+                              ${isSelected 
+                                  ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.3)]' 
+                                  : 'bg-slate-800 border-slate-700 hover:bg-slate-700 hover:border-slate-600'}
+                          `}
+                          title={a.name}
+                      >
+                          {icon ? (
+                              <img src={icon} alt={a.name} className="w-6 h-8 md:w-10 md:h-14 object-contain mr-2 md:mr-0 md:mb-1" />
+                          ) : (
+                              <div className="w-6 h-8 md:w-10 md:h-14 bg-slate-700 rounded-md mr-2 md:mr-0 md:mb-1 flex items-center justify-center text-[8px] md:text-xs">?</div>
+                          )}
+                          <span className="text-[9px] md:text-[10px] font-medium truncate max-w-[60px] md:max-w-none text-center">{a.name}</span>
+                      </button>
+                  );
+              })}
+          </div>
+        </div>
+
+        {/* Properties Dropdown - Hidden or simplified on mobile to save vertical space */}
+        <div className="hidden md:block border border-slate-700 rounded-lg bg-slate-800/50 overflow-hidden">
             <button 
                 onClick={() => setShowProperties(!showProperties)}
                 className="w-full flex items-center justify-between p-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
@@ -302,35 +304,35 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onPlanGenerate, onSc
                 </div>
             )}
         </div>
-      </div>
 
-      <div className="flex flex-col gap-2 flex-grow">
-        <div className="flex justify-between items-center">
-            <label className="text-sm font-medium text-slate-400">Task</label>
-            <button 
-                onClick={handleGenerateTask}
-                disabled={isGeneratingTask || isGenerating}
-                className="text-[10px] bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded px-2 py-1 flex items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Generate a random task for this scene"
-            >
-                {isGeneratingTask ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3 text-yellow-400" />}
-                <span>Auto-Generate</span>
-            </button>
+        <div className="flex flex-col gap-1 md:gap-2 flex-grow md:flex-grow-0 min-w-[160px] md:min-w-0">
+          <div className="flex justify-between items-center">
+              <label className="text-[10px] md:text-sm font-medium text-slate-400 uppercase tracking-wider md:normal-case md:tracking-normal">Task</label>
+              <button 
+                  onClick={handleGenerateTask}
+                  disabled={isGeneratingTask || isGenerating}
+                  className="hidden md:flex text-[8px] md:text-[10px] bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded px-1.5 md:px-2 py-0.5 md:py-1 items-center gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Generate a random task for this scene"
+              >
+                  {isGeneratingTask ? <Loader2 className="w-2.5 h-2.5 md:w-3 md:h-3 animate-spin" /> : <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3 text-yellow-400" />}
+                  <span>Auto-Generate</span>
+              </button>
+          </div>
+          <textarea 
+            className="bg-slate-800 border border-slate-700 rounded p-1.5 md:p-2 text-xs md:text-sm h-10 md:h-32 resize-none focus:border-blue-500 outline-none"
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+          />
         </div>
-        <textarea 
-          className="bg-slate-800 border border-slate-700 rounded p-2 text-sm h-32 resize-none focus:border-blue-500 outline-none"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-        />
-      </div>
 
-      <button 
-        className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={() => onPlanGenerate(selectedScene, selectedAgent, task, overrides)}
-        disabled={isGenerating}
-      >
-        {isGenerating ? <Loader2 className="animate-spin h-4 w-4" /> : "Generate & Verify Plan"}
-      </button>
+        <button 
+          className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-1.5 md:py-2 px-3 md:px-4 rounded text-xs md:text-base transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          onClick={() => onPlanGenerate(selectedScene, selectedAgent, task, overrides)}
+          disabled={isGenerating}
+        >
+          {isGenerating ? <Loader2 className="animate-spin h-3 w-3 md:h-4 md:w-4" /> : "Verify Plan"}
+        </button>
+      </div>
     </div>
   );
 };
