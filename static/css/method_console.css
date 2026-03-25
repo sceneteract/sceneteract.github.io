@@ -242,14 +242,17 @@
 }
 
 /* Bento Box Carousel Responsive Widths */
-.bento-box.agent-view,
+.bento-box.agent-view {
+  flex: 0 0 260px;
+}
+
 .bento-box.task-desc {
-  flex: 0 0 280px;
+  flex: 0 0 320px;
 }
 
 .bento-box.scene-merged {
-  flex: 0 0 700px !important;
-  min-width: 700px !important;
+  flex: 0 0 600px !important;
+  min-width: 600px !important;
 }
 
 .bento-flex-container {
@@ -260,17 +263,27 @@
 }
 
 .bento-flex-container > div:not(.vertical-separator) {
-  flex: 1 !important; /* Share available space equally */
-  min-width: 0 !important; /* Allow content to fit within the container */
+  flex: 1 !important;
+  min-width: 0 !important;
   display: flex;
   flex-direction: column;
 }
 
+/* Adjust Rendering vs Structured Input ratio */
+.bento-box.scene-merged .bento-flex-container > div:first-child {
+  flex: 0 0 240px !important; /* Rendering part doesn't need much width */
+}
+
+.bento-box.scene-merged .bento-flex-container > div:last-child {
+  flex: 1 !important; /* Let Structured Input take the rest */
+}
+
 @media screen and (max-width: 768px) {
-  .bento-box.agent-view,
+  .bento-box.agent-view {
+    flex: 0 0 260px;
+  }
   .bento-box.task-desc {
-    flex: 0 0 calc(100vw - 4rem);
-    min-width: 250px;
+    flex: 0 0 320px;
   }
 }
 
