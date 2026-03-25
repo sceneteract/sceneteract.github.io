@@ -154,6 +154,19 @@ function setupExperimentsTabs() {
       const targetPane = document.getElementById(targetId);
       if (targetPane) {
         targetPane.classList.add('is-active');
+        
+        // If switching to Auditing tab, ensure the chart is initialized and SIZED correctly
+        if (targetId === 'exp-auditing') {
+            setTimeout(() => {
+                if (window.auditingChart) {
+                    // FORCE a resize to current container dimensions before updating
+                    window.auditingChart.resize();
+                    window.auditingChart.update('none');
+                } else {
+                    initAuditingChart();
+                }
+            }, 50); // Increased timeout slightly to ensure DOM state is ready
+        }
       }
     });
   });
@@ -295,8 +308,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function initAuditingChart() {
   const ctx = document.getElementById('auditingSpiderChart');
   if (!ctx) return;
+  const container = ctx.parentElement;
 
-  new Chart(ctx, {
+  // Destroy existing chart if it exists
+  if (window.auditingChart) {
+    window.auditingChart.destroy();
+  }
+
+  window.auditingChart = new Chart(ctx, {
     type: 'radar',
     data: {
       labels: ['Close', 'Look At', 'Navigate To', 'Open', 'Pick Up From', 'Release On', 'Sit On', 'Take Out Of'],
@@ -329,7 +348,7 @@ function initAuditingChart() {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: false, // Ensure it fills the 350px container
       scales: {
         r: {
           min: 0,
@@ -365,10 +384,30 @@ function initAuditingChart() {
       }
     }
   });
+
+  // Use ResizeObserver for absolute robustness
+  const ro = new ResizeObserver(() => {
+    if (window.auditingChart) {
+      window.auditingChart.resize();
+    }
+  });
+  ro.observe(container);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     initAuditingChart();
+    
+    // Add resize listener to handle layout changes
+    window.addEventListener('resize', () => {
+        if (window.auditingChart) {
+            const auditingPane = document.getElementById('exp-auditing');
+            // Only resize/update if the pane is currently active (visible)
+            if (auditingPane && auditingPane.classList.contains('is-active')) {
+                window.auditingChart.resize();
+                window.auditingChart.update('none');
+            }
+        }
+    });
 });
 
 // GRPO Sub-tabs Functionality

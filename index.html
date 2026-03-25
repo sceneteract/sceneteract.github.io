@@ -1267,11 +1267,12 @@
                 where restrictive spatial layouts act as a primary bottleneck.
               </p>
 
-              <div class="columns is-desktop is-vcentered">
-                <div class="column is-6">
+              <div class="columns is-multiline">
+                <div class="column is-6-desktop is-12-tablet is-full-mobile">
                   <h4 class="title is-6 has-text-centered mb-4 text-slate-700">Overall & Action Success Rates</h4>
-                  <div class="benchmark-container">
-                    <table class="benchmark-table" style="width: 100%;">
+                  <div class="benchmark-container auditing-table-container">
+                    <table class="benchmark-table auditing-table" style="width: 100%;">
+
                       <thead>
                         <tr>
                           <th class="text-left">Metric</th>
@@ -1322,9 +1323,9 @@
                     </table>
                   </div>
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-desktop is-12-tablet is-full-mobile">
                   <h4 class="title is-6 has-text-centered mb-4 text-slate-700">Atomic Action Success Rates</h4>
-                  <div style="position: relative; height: 350px; width: 100%;">
+                  <div class="chart-container-wrapper" style="position: relative; height: 350px; min-height: 350px; width: 100%;">
                     <canvas id="auditingSpiderChart"></canvas>
                   </div>
                 </div>

@@ -1047,11 +1047,40 @@ a:focus {
   box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
+.auditing-table-container {
+  overflow-x: hidden; /* Prevent scroll if it fits */
+}
+
+@media screen and (max-width: 1152px) {
+  .auditing-table-container {
+    overflow-x: auto; /* Re-enable for mobile/tablet if needed */
+  }
+}
+
 .benchmark-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
   text-align: center;
+}
+
+.auditing-table {
+  min-width: 0 !important; /* Allow it to shrink and expand */
+}
+
+.chart-container-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: 350px !important;
+  min-height: 350px !important;
+  display: block !important;
+  overflow: visible !important;
+}
+
+#auditingSpiderChart {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
 }
 
 .benchmark-table th, .benchmark-table td {
