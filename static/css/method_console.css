@@ -198,24 +198,9 @@
   margin: 0;
 }
 
-@media screen and (max-width: 768px) {
-  .bento-flex-container {
-    flex-direction: row; /* Keep side-by-side */
-    gap: 1.25rem;
-    overflow: visible;
-  }
-  .bento-flex-container > div {
-    min-width: 250px; /* Ensure content is readable */
-    flex: 0 0 auto !important;
-  }
-  .vertical-separator {
-    display: block; /* Keep separator */
-  }
-}
-
 .code-block {
-  background-color: #1e293b !important;
-  color: #ffffff !important;
+  background-color: #0f172a !important; /* Darker background */
+  color: #f8fafc !important;
   padding: 1rem !important;
   border-radius: 8px !important;
   font-family: 'Fira Code', monospace !important;
@@ -224,6 +209,8 @@
   overflow-x: auto !important;
   margin: 0 !important;
   text-align: left !important;
+  flex-grow: 1;
+  min-height: 120px;
 }
 
 .code-block code {
@@ -261,7 +248,22 @@
 }
 
 .bento-box.scene-merged {
-  flex: 0 0 540px;
+  flex: 0 0 700px !important;
+  min-width: 700px !important;
+}
+
+.bento-flex-container {
+  display: flex !important;
+  flex-direction: row !important; /* Always side-by-side */
+  flex-wrap: nowrap !important;
+  width: 100%;
+}
+
+.bento-flex-container > div:not(.vertical-separator) {
+  flex: 1 !important; /* Share available space equally */
+  min-width: 0 !important; /* Allow content to fit within the container */
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 768px) {
@@ -269,9 +271,6 @@
   .bento-box.task-desc {
     flex: 0 0 calc(100vw - 4rem);
     min-width: 250px;
-  }
-  .bento-box.scene-merged {
-    flex: 0 0 540px; /* Keep it wide for side-by-side items */
   }
 }
 

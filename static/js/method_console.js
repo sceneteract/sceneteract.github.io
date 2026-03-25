@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Common carousel state and functions (accessible to both nav and carousel logic)
+  let scrollOffset = 0;
+  let updateInputCarousel = () => {};
+
   // Navigation Logic
   const navItems = document.querySelectorAll('.nav-item');
   const stageContents = document.querySelectorAll('.stage-content');
@@ -10,9 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
         item.classList.add('active');
         const targetId = item.getAttribute('data-target');
         
-        stageContents.forEach(content => {
+      stageContents.forEach(content => {
           if (content.id === targetId) {
             content.classList.add('active');
+            // Reset input carousel if going to stage 1
+            if (targetId === 'stage-1') {
+              scrollOffset = 0;
+              updateInputCarousel();
+            }
           } else {
             content.classList.remove('active');
           }
@@ -81,54 +90,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputNextBtn = document.getElementById('input-next');
 
   if (inputTrack && inputPrevBtn && inputNextBtn) {
-    const cards = inputTrack.querySelectorAll('.bento-box');
-    let inputCurrentIndex = 0;
-    
-    const getInputMaxIndex = () => {
-      // Find the last index where a card's right edge is beyond the container's right edge
+    const scrollStep = 300; // Move by fixed amount to reveal gradually
+
+    updateInputCarousel = () => {
       const containerWidth = inputTrack.parentElement.clientWidth;
-      let lastVisibleIndex = 0;
-      for (let i = 0; i < cards.length; i++) {
-        const cardRight = cards[i].offsetLeft + cards[i].offsetWidth - cards[0].offsetLeft;
-        if (cardRight > containerWidth) {
-          // If this card (or any after it) starts after the first card, it's a potential stop
-          lastVisibleIndex = i;
-        }
-      }
-      // If the entire track fits, maxIndex is 0
-      if (inputTrack.scrollWidth <= containerWidth) return 0;
-      
-      // We want to be able to click 'next' as long as the last card is not fully in view at the right edge
-      // But for simplicity with index-based navigation:
-      return cards.length - 1;
-    };
+      const totalWidth = inputTrack.scrollWidth;
+      const desktopPadding = window.innerWidth > 768 ? 20 : 0;
+      const maxScroll = Math.max(0, totalWidth - containerWidth + desktopPadding);
 
-    const updateInputCarousel = () => {
-      const inputMaxIndex = getInputMaxIndex();
-      if (inputCurrentIndex > inputMaxIndex) inputCurrentIndex = inputMaxIndex;
+      if (scrollOffset > maxScroll) scrollOffset = maxScroll;
+      if (scrollOffset < 0) scrollOffset = 0;
 
-      // Calculate the offset to the current card
-      let offset = 0;
-      if (inputCurrentIndex > 0 && cards[inputCurrentIndex]) {
-        offset = cards[inputCurrentIndex].offsetLeft - cards[0].offsetLeft;
-        
-        // Prevent scrolling past the end of the track
-        const maxScroll = inputTrack.scrollWidth - inputTrack.parentElement.clientWidth;
-        if (offset > maxScroll) {
-            offset = maxScroll > 0 ? maxScroll : 0;
-        }
-      }
-
-      inputTrack.style.transform = `translateX(-${offset}px)`;
+      inputTrack.style.transform = `translateX(-${scrollOffset}px)`;
       
-      inputPrevBtn.style.opacity = inputCurrentIndex === 0 ? '0.3' : '1';
-      inputPrevBtn.style.pointerEvents = inputCurrentIndex === 0 ? 'none' : 'auto';
+      inputPrevBtn.style.opacity = scrollOffset <= 0 ? '0.3' : '1';
+      inputPrevBtn.style.pointerEvents = scrollOffset <= 0 ? 'none' : 'auto';
       
-      const maxScroll = inputTrack.scrollWidth - inputTrack.parentElement.clientWidth;
-      const isAtEnd = maxScroll <= 0 || offset >= maxScroll - 5; // 5px tolerance
-      
-      inputNextBtn.style.opacity = isAtEnd ? '0.3' : '1';
-      inputNextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+      inputNextBtn.style.opacity = scrollOffset >= maxScroll ? '0.3' : '1';
+      inputNextBtn.style.pointerEvents = scrollOffset >= maxScroll ? 'none' : 'auto';
     };
 
     window.addEventListener('resize', updateInputCarousel);
@@ -136,19 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inputPrevBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (inputCurrentIndex > 0) {
-        inputCurrentIndex--;
-        updateInputCarousel();
-      }
+      scrollOffset -= scrollStep;
+      updateInputCarousel();
     });
 
     inputNextBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const inputMaxIndex = getInputMaxIndex();
-      if (inputCurrentIndex < inputMaxIndex) {
-        inputCurrentIndex++;
-        updateInputCarousel();
-      }
+      scrollOffset += scrollStep;
+      updateInputCarousel();
     });
   }
 

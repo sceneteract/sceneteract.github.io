@@ -50,6 +50,13 @@ img, video {
   max-width: 100%;
 }
 
+/* Exempt carousel items from the strict max-width to allow horizontal scrolling */
+.action-library .library-family,
+.action-library-container .bento-box,
+#input-scroll .bento-box {
+  max-width: none !important;
+}
+
 /* Smooth scrolling for better UX */
 html {
   scroll-behavior: smooth;
